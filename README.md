@@ -22,14 +22,24 @@ npm i
 mongod
 ```
 
-#### Build TypeScript to JavaScript ES5
+#### Dynamically Build TypeScript to JavaScript ES5
+```
+npm run watch
+```
+
+#### Build TypeScript to JavaScript ES5 for once
 ```
 npm run build
 ```
 
-#### Run application
+#### Run application in dev mode
 ```
-npm start
+npm run start-dev 
+```
+
+#### Run application in production mode
+```
+npm run start-prod
 ```
 
 #### Run Test
@@ -55,9 +65,3 @@ First of all, make sure you have MongoDB installed. then install [Mongo] plugin 
 - Save
 - Search Mongo Explorer
 - Then you can see the connected MongoDB
-
-
-
-
-
-

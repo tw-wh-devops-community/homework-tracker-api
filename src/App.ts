@@ -1,7 +1,8 @@
 import * as express from 'express'
 import * as bodyParser from 'body-parser'
 import * as mongoose from 'mongoose'
-import TodoListRouter from './routes/TodoListRouter'
+import * as morgan from 'morgan'
+import HomeworkRouter from './routes/HomeworkRouter'
 
 class App {
   public app: express.Application
@@ -15,21 +16,23 @@ class App {
   }
 
   private connectDatabase(): void {
-    mongoose.connect('mongodb://localhost/Tododb', { useMongoClient: true }) 
+    const db = `mongodb://localhost/homework-tracker-${process.env.NODE_ENV}`
+    mongoose.connect(db, { useMongoClient: true })
   }
 
   private middleware(): void {
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(bodyParser.json())
+    this.app.use(morgan('combined'))
   }
 
   private routes() {
     let router = express.Router()
-    router.get('/', (req, res, next) => {
+    router.get('/', (req, res) => {
       res.json({ message: 'Hello World!' })
     })
     this.app.use('/', router)
-    this.app.use('/api', TodoListRouter)
+    this.app.use('/api', HomeworkRouter)
   }
 
   private handleError(): void {

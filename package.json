@@ -4,22 +4,29 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "gulp",
-    "start": "nodemon dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "gulp",
+    "build": "gulp scripts",
+    "start-dev": "NODE_ENV=dev nodemon dist/index.js",
+    "start-prod": "NODE_ENV=production node dist/index.js",
+    "test": "NODE_ENV=test mocha --reporter spec --require ts-node/register 'test/**/**/*.test.ts'"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^9.3.0",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-typescript": "^4.0.0-alpha.1",
+    "mocha": "^5.0.0",
     "nodemon": "^1.14.11",
+    "ts-node": "^4.1.0",
     "typescript": "^2.6.2"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "mongoose": "^4.13.9"
+    "mongoose": "^4.13.9",
+    "morgan": "^1.9.0"
   }
 }
