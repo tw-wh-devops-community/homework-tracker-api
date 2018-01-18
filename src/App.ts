@@ -2,7 +2,7 @@ import * as express from 'express'
 import * as bodyParser from 'body-parser'
 import * as mongoose from 'mongoose'
 import * as morgan from 'morgan'
-import TodoListRouter from './routes/TodoListRouter'
+import HomeworkRouter from './routes/HomeworkRouter'
 
 class App {
   public app: express.Application
@@ -32,7 +32,7 @@ class App {
       res.json({ message: 'Hello World!' })
     })
     this.app.use('/', router)
-    this.app.use('/api', TodoListRouter)
+    this.app.use('/api', HomeworkRouter)
   }
 
   private handleError(): void {

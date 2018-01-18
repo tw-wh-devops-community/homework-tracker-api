@@ -1,9 +1,9 @@
 import * as mongoose from 'mongoose'
 
-const TaskSchema = new mongoose.Schema({
+const HomeworkSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: 'Kindly enter the name of the task'
+    required: 'Kindly enter the name of the homework'
   },
   created_date: {
     type: Date,
@@ -18,5 +18,5 @@ const TaskSchema = new mongoose.Schema({
   },
 })
 
-export default mongoose.model('Tasks', TaskSchema)
+export default mongoose.model('Homeworks', HomeworkSchema)
 
