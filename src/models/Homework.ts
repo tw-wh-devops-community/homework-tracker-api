@@ -12,7 +12,7 @@ const HomeworkSchema = new mongoose.Schema({
   status: {
     type: [{
       type: String,
-      enum: ['pending', 'ongoing', 'completed']
+      enum: ['pending', 'completed']
     }],
     default: ['pending']
   },
