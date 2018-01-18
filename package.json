@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "gulp",
-    "start": "nodemon dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "gulp",
+    "build": "gulp scripts",
+    "start-dev": "NODE_ENV=dev nodemon dist/index.js",
+    "start-prod": "NODE_ENV=production node dist/index.js",
+    "test": "NODE_ENV=test"
   },
   "author": "",
   "license": "ISC",

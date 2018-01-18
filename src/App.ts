@@ -16,7 +16,8 @@ class App {
   }
 
   private connectDatabase(): void {
-    mongoose.connect('mongodb://localhost/HomeworkTrackerDB', { useMongoClient: true })
+    const db = `mongodb://localhost/homework-tracker-${process.env.NODE_ENV}`
+    mongoose.connect(db, { useMongoClient: true })
   }
 
   private middleware(): void {
