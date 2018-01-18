@@ -12,8 +12,8 @@
 #### Download codebase and install dependencies
 
 ```
-git clone 
-cd HomeworkTracker
+git clone git@github.com:tw-wh-devops-community/homework-tracker-api.git
+cd homework-tracker-api
 npm i
 ```
 
