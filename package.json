@@ -8,7 +8,7 @@
     "build": "gulp scripts",
     "start-dev": "NODE_ENV=dev nodemon dist/index.js",
     "start-prod": "NODE_ENV=production node dist/index.js",
-    "test": "NODE_ENV=test"
+    "test": "NODE_ENV=test mocha --reporter spec --require ts-node/register 'test/**/*.test.ts'"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "gulp-typescript": "^4.0.0-alpha.1",
     "mocha": "^5.0.0",
     "nodemon": "^1.14.11",
+    "ts-node": "^4.1.0",
     "typescript": "^2.6.2"
   },
   "dependencies": {
