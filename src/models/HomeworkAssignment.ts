@@ -6,32 +6,31 @@ export type homeworkAssignmentModel = mongoose.Document & {
   assigned_date: Date,
   deadline_date: Date,
   finished_date: Date,
-  is_finished: boolean
+  is_finished: boolean,
 }
 
-
 const homeworkAssignmentSchema = new mongoose.Schema({
-  homework_id:{
+  homework_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'CandidateHomework'
+    ref: 'CandidateHomework',
   },
-  interviewer_id:{
+  interviewer_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Interviewer'
+    ref: 'Interviewer',
   },
   assigned_date: {
-    type: Date
+    type: Date,
   },
   deadline_date: {
-    type: Date
+    type: Date,
   },
-  is_finished:{
-    type: Boolean
+  is_finished: {
+    type: Boolean,
   },
-  finished_date:{
-    type: Date
-  }
+  finished_date: {
+    type: Date,
+  },
 })
 
-
-export const HomeworkAssignment = mongoose.model<homeworkAssignmentModel>('HomeworkAssignment', homeworkAssignmentSchema)
+export const HomeworkAssignment =
+  mongoose.model<homeworkAssignmentModel>('HomeworkAssignment', homeworkAssignmentSchema)

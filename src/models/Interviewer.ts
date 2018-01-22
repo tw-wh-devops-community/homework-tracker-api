@@ -8,16 +8,15 @@ export type interviewerModel = mongoose.Document & {
 const interviewerSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: 'Kindly set the name of the interviewer'
+    required: 'Kindly set the name of the interviewer',
   },
   profile_pic: {
-    type: String
+    type: String,
   },
   created_date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
 })
-
 
 export const Interviewer = mongoose.model<interviewerModel>('Interviewer', interviewerSchema)
