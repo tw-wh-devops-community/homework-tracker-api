@@ -1,5 +1,5 @@
 ## Homework Tracker
-
+[![Build Status](https://travis-ci.org/tw-wh-devops-community/homework-tracker-api.svg?branch=master)](https://travis-ci.org/tw-wh-devops-community/homework-tracker-api)
 
 ### Preconditon
 - [MongoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/#install-mongodb-community-edition-with-homebrew) 
