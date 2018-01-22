@@ -8,6 +8,7 @@
     "build": "gulp scripts",
     "start-dev": "NODE_ENV=dev nodemon dist/index.js",
     "start-prod": "NODE_ENV=production node dist/index.js",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
     "test": "NODE_ENV=test mocha --reporter mochawesome --require ts-node/register 'test/**/**/*.test.ts' --exit"
   },
   "author": "",
@@ -22,6 +23,7 @@
     "mochawesome": "^3.0.1",
     "nodemon": "^1.14.11",
     "ts-node": "^4.1.0",
+    "tslint": "^5.9.1",
     "typescript": "^2.6.2"
   },
   "dependencies": {

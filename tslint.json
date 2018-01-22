@@ -1,0 +1,25 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "rules": {
+        "class-name": true,
+        "curly": true,
+        "max-line-length": {
+            "options": [120]
+        },
+        "new-parens": true,
+        "no-arg": true,
+        "no-eval": true,
+        "no-unused-expression": true,
+        "no-unused-variable": true,
+        "no-use-before-declare": true,
+        "quotemark": [true, "single"],
+        "semicolon": false,
+        "use-strict": false,
+        "ordered-imports": false,
+        "object-literal-key-quotes": false,
+        "object-literal-sort-keys": false
+    }
+}

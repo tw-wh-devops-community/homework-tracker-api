@@ -5,7 +5,7 @@ import {
 } from '../controllers/HomeworkController'
 
 class HomeworkRouter {
-  router: Router
+  public router: Router
 
   constructor() {
     this.router = Router()

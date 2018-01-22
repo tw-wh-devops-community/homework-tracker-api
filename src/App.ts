@@ -1,5 +1,5 @@
-import * as express from 'express'
 import * as bodyParser from 'body-parser'
+import * as express from 'express'
 import * as mongoose from 'mongoose'
 import * as morgan from 'morgan'
 import HomeworkRouter from './routes/HomeworkRouter'
@@ -27,7 +27,7 @@ class App {
   }
 
   private routes() {
-    let router = express.Router()
+    const router = express.Router()
     router.get('/', (req, res) => {
       res.json({ message: 'Hello World!' })
     })
@@ -36,9 +36,9 @@ class App {
   }
 
   private handleError(): void {
-    this.app.use(function(req, res) {
+    this.app.use((req, res) => {
       res.status(404).send({ url: req.originalUrl + ' not found.' })
-    })    
+    })
   }
 }
 
