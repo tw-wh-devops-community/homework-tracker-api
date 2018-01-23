@@ -3,18 +3,23 @@
 
 ### Preconditon
 - [MongoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/#install-mongodb-community-edition-with-homebrew) 
-- Node(v6.9.4)
+- Node(v6.12.3)
 - npm(v3.10.10)
 
 
 ### How to Run
 
-#### Download codebase and install dependencies
+#### Download codebase
 
 ```
 git clone git@github.com:tw-wh-devops-community/homework-tracker-api.git
 cd homework-tracker-api
-npm i
+```
+#### [Set node version via nvm](https://github.com/creationix/nvm#nvmrc) and install dependencies
+```
+nvm install
+nvm use
+npm install
 ```
 
 #### Run MongoDB
