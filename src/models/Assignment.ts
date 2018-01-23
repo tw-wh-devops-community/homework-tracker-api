@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose'
 
-export type homeworkAssignmentModel = mongoose.Document & {
+export type assignmentModel = mongoose.Document & {
   homework_id: any,
   interviewer_id: any,
   assigned_date: Date,
@@ -9,7 +9,7 @@ export type homeworkAssignmentModel = mongoose.Document & {
   is_finished: boolean,
 }
 
-const homeworkAssignmentSchema = new mongoose.Schema({
+const assignmentSchema = new mongoose.Schema({
   homework_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'CandidateHomework',
@@ -32,5 +32,6 @@ const homeworkAssignmentSchema = new mongoose.Schema({
   },
 })
 
-export const HomeworkAssignment =
-  mongoose.model<homeworkAssignmentModel>('HomeworkAssignment', homeworkAssignmentSchema)
+export const Assignment =
+  mongoose.model<assignmentModel>('HomeworkAssignment', assignmentSchema)
+

@@ -20,7 +20,7 @@ const onError = (error: NodeJS.ErrnoException, currentPort: string|number): void
   }
 }
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5678
 App.set('port', port)
 const server = http.createServer(App)
 server.listen(port)
