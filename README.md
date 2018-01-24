@@ -52,7 +52,7 @@ npm run start-prod
 npm test
 ```
 
-### Others
+### Tips
 
 #### Connect to mongoDB vai IntelliJ
 
@@ -72,9 +72,9 @@ First of all, make sure you have MongoDB installed. then install [Mongo] plugin 
 - Then you can see the connected MongoDB
 
 
-#### Guidelines
+### Guidelines
 
-##### Git commit
+#### Git commit
 
 In order to make our commit messages more readable and easy to follow when looking through the project history, we made the git commit guideline. 
 
