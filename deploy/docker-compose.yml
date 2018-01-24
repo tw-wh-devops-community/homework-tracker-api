@@ -1,0 +1,17 @@
+version: '2'
+services:
+    mongodb:
+      image: mongo:latest
+      container_name: "mongodb"
+      volumes:
+        - ~/homework/mongodb:/data/db
+      ports:
+        - 27017:27017
+    backend:
+      image: "registry.cn-hangzhou.aliyuncs.com/wjyao/homework-tracker-api"
+      ports:
+        - 5678:5678
+    web:
+      image: "registry.cn-hangzhou.aliyuncs.com/wjyao/homework-tracker-web"
+      ports:
+        - 3000:3000
