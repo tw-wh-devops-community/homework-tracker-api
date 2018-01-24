@@ -1,6 +1,6 @@
 set -e
 
-docker login registry.cn-hangzhou.aliyuncs.com -u  -p
+docker login registry.cn-hangzhou.aliyuncs.com -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
 docker build -t homework-tracker-api .
 
