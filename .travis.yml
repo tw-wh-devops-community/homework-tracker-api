@@ -5,6 +5,9 @@ sudo: required
 services:
   - mongodb
   - docker
+cache:
+  directories:
+    - node_modules
 before_install:
   - npm i mongodb-download@2.2.3
 script:
