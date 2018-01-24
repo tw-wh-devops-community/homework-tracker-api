@@ -11,7 +11,7 @@ describe('Assignment model test', () => {
   })
 
   it('should get the saved assignment info', async () => {
-    const interviewer = new Interviewer({name: 'foo1', profile_pic: 'bar'})
+    const interviewer = new Interviewer({name: 'foo1', employee_id: '123', role:'QA'})
     const savedInterviewer = await interviewer.save()
     const homework = new Homework({name: 'foo2', job_role: 'QA'})
     const savedHomework = await homework.save()

@@ -9,9 +9,13 @@ describe('interviewer model test', () => {
   })
 
   it('should get the saved interviewer info', async () => {
-    const interviewer = new Interviewer({name: 'foo', profile_pic: 'bar'})
+    const interviewer = new Interviewer({name: 'foo',  employee_id: 'bar', role:'QA'})
     const savedInterviewer = await interviewer.save()
+    const picBathUrl ='fakeStorePicBathUrl'
+
     const latestInterviewer = await Interviewer.findById(savedInterviewer.id)
+
     expect(latestInterviewer.name).to.eql('foo')
+    expect(latestInterviewer.getPicUrl()).to.eql(`${picBathUrl}bar`)
   })
 })

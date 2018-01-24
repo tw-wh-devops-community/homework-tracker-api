@@ -1,8 +1,12 @@
 import * as mongoose from 'mongoose'
 
+const storePicBathUrl = 'fakeStorePicBathUrl'
+
 export type interviewerModel = mongoose.Document & {
   name: string,
-  profile_pic: any,
+  role: string,
+  employee_id: any,
+  getPicUrl(): string;
 }
 
 const interviewerSchema = new mongoose.Schema({
@@ -10,7 +14,11 @@ const interviewerSchema = new mongoose.Schema({
     type: String,
     required: 'Kindly set the name of the interviewer',
   },
-  profile_pic: {
+  role: {
+    type: String,
+    required: 'Kindly set the role of the interviewer',
+  },
+  employee_id: {
     type: String,
   },
   created_date: {
@@ -18,5 +26,9 @@ const interviewerSchema = new mongoose.Schema({
     default: Date.now,
   },
 })
+
+interviewerSchema.methods.getPicUrl = function(): string {
+  return `${storePicBathUrl}${this.employee_id}`;
+};
 
 export const Interviewer = mongoose.model<interviewerModel>('Interviewer', interviewerSchema)
