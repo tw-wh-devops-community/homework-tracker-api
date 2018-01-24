@@ -1,7 +1,10 @@
 language: node_js
 node_js:
   - "6"
-services: mongodb
+sudo: required
+services:
+  - mongodb
+  - docker
 before_install:
   - npm i mongodb-download@2.2.3
 script:
