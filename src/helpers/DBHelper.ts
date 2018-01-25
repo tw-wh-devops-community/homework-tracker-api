@@ -19,7 +19,7 @@ export class DBHelper {
   }
 
   private plugCustomPromise() {
-    (<any>mongoose).Promise = bluebird
+    (mongoose as any).Promise = bluebird
   }
 
   private setDatabase() {
