@@ -33,4 +33,4 @@ const assignmentSchema = new mongoose.Schema({
 })
 
 export const Assignment =
-  mongoose.model<assignmentModel>('HomeworkAssignment', assignmentSchema)
+  mongoose.model<assignmentModel>('Assignment', assignmentSchema)

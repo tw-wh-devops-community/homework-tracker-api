@@ -9,8 +9,8 @@
     "start-dev": "NODE_ENV=dev nodemon dist/index.js",
     "start-prod": "NODE_ENV=production node dist/index.js",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "init_interviewers_dev": "NODE_ENV=dev ts-node src/init-data/InitInterviewers.ts",
-    "init_interviewers_prod": "NODE_ENV=production ts-node src/init-data/InitInterviewers.ts",
+    "init_data_dev": "NODE_ENV=dev ts-node src/init-data/InitInterviewers.ts",
+    "init_data_prod": "NODE_ENV=production ts-node src/init-data/InitInterviewers.ts",
     "test": "NODE_ENV=test mocha --reporter mochawesome --timeout 120000 --require ts-node/register 'test/**/**/*.test.ts' --exit"
   },
   "author": "",

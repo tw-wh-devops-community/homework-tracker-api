@@ -5,7 +5,7 @@ const storePicBathUrl = 'fakeStorePicBathUrl'
 export type interviewerModel = mongoose.Document & {
   name: string,
   role: string,
-  employee_id: any,
+  employee_id: string,
   getPicUrl(): string;
 }
 
