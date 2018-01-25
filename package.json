@@ -31,6 +31,7 @@
     "mocha": "^5.0.0",
     "mochawesome": "^3.0.1",
     "mockgoose": "^7.3.3",
+    "mongodb-download": "^2.2.3",
     "nodemon": "^1.14.11",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",

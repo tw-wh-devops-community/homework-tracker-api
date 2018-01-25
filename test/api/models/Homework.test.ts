@@ -1,6 +1,6 @@
 import * as chai from 'chai'
-import { Homework } from '../../../src/models/Homework'
-import { resetDB } from '../../db-test-setup'
+import Homework from '../../../src/models/Homework'
+import { resetDB } from '../../db.spec'
 
 const expect = chai.expect
 describe('Homework model test', () => {
