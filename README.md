@@ -52,25 +52,9 @@ npm run start-prod
 npm test
 ```
 
-### Tips
+### MongoDB GUI 
 
-#### Connect to mongoDB vai IntelliJ
-
-First of all, make sure you have MongoDB installed. then install [Mongo] plugin in IntelliJ via:
-
-- Open IntelliJ settings(Cmd + ,)
-- Plugins
-- Browse repositories
-- Search: Mongo Plugin
-- Install the Plugin and then restart IntelliJ
-- Open IntelliJ settings(Cmd + ,)
-- Other Settings
-- Mongo Servers
-- Create a server: Set the label for server
-- Save
-- Search Mongo Explorer
-- Then you can see the connected MongoDB
-
+We use [Robo 3T](https://robomongo.org/)
 
 ### Guidelines
 
