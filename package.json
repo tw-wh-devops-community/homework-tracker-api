@@ -8,8 +8,8 @@
     "db:seed-dev": "NODE_ENV=dev ts-node src/db/Seeds.ts",
     "start-dev": "NODE_ENV=dev nodemon dist/index.js",
     "build": "gulp scripts",
-    "db:seed-prod": "NODE_ENV=production ts-node src/db/Seeds.ts",
-    "start-prod": "NODE_ENV=production node dist/index.js",
+    "db:seed-prod": "NODE_ENV=prod ts-node src/db/Seeds.ts",
+    "start-prod": "NODE_ENV=prod node dist/index.js",
     "lint": "tslint -c tslint.json -p tsconfig.json",
 <<<<<<< HEAD
     "init_data_dev": "NODE_ENV=dev ts-node src/init-data/InitInterviewers.ts",
@@ -22,8 +22,8 @@
   "repository": "https://github.com/tw-wh-devops-community/homework-tracker-api",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^9.3.0",
     "@types/mongoose": "^4.7.33",
+    "@types/node": "^9.3.0",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "gulp": "^3.9.1",

@@ -1,12 +1,9 @@
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import * as morgan from 'morgan'
-import * as dotenv from 'dotenv'
 import connectDB from './helpers/DBHelper'
 import HomeworkRouter from './routes/HomeworkRouter'
 import ImageRouter from './routes/ImageRouter'
-
-dotenv.config()
 
 class App {
   public app: express.Application
