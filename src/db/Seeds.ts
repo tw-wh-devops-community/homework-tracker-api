@@ -1,4 +1,3 @@
-import * as mongoose from 'mongoose'
 import dbHelper from '../helpers/DBHelper'
 import { interviewerModel, Interviewer } from '../models/Interviewer'
 
@@ -12,11 +11,13 @@ const initInterviewers = () => {
     done++
     console.log(`Importing ${interviewer.name}...`) // tslint:disable-line
     if (done === interviewers.length) {
-      mongoose.disconnect().then(() => {
+      dbHelper.disconnect().then(() => {
         console.log(`${interviewers.length} records are imported successfully, database disconnected.`) // tslint:disable-line
       })
     }
   })
 }
 
-dbHelper.connect(initInterviewers)
+dbHelper.connect().then(() => {
+  initInterviewers()
+})

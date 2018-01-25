@@ -15,6 +15,4 @@ const homeworkSchema = new mongoose.Schema({
   },
 })
 
-export const Homework = mongoose.model<homeworkModel>('Homework', homeworkSchema)
-
-export default Homework
+export default mongoose.model<homeworkModel>('Homework', homeworkSchema)

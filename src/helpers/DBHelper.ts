@@ -2,22 +2,24 @@ import * as mongoose from 'mongoose'
 import * as bluebird from 'bluebird'
 import * as dotenv from 'dotenv'
 
-class DBHelper {
+export class DBHelper {
+  private db: any
+
   constructor() {
     this.plugCustomPromise()
     this.setDatabase()
   }
 
-  public connect(successHandler?) {
-    mongoose.connect(this.db, { useMongoClient: true }).then(() => {
-      if (successHandler) {
-        successHandler()
-      }
-    })
+  public connect() {
+    return mongoose.connect(this.db, { useMongoClient: true })
+  }
+
+  public disconnect() {
+    return mongoose.disconnect()
   }
 
   private plugCustomPromise() {
-    mongoose.Promise = bluebird
+    (<any>mongoose).Promise = bluebird
   }
 
   private setDatabase() {
