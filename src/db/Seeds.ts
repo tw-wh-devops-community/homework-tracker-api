@@ -10,7 +10,7 @@ const initInterviewers = () => {
     const interviewer = new Interviewer(interviewerData)
     await interviewer.save()
     done++
-    console.log(`Importing ${interviewer.name}...`)
+    console.log(`Importing ${interviewer.name}...`) // tslint:disable-line
     if (done === interviewers.length) {
       mongoose.disconnect().then(() => {
         console.log(`${interviewers.length} records are imported successfully, database disconnected.`) // tslint:disable-line
