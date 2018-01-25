@@ -3,6 +3,7 @@ import * as express from 'express'
 import * as mongoose from 'mongoose'
 import * as morgan from 'morgan'
 import HomeworkRouter from './routes/HomeworkRouter'
+import ImageRouter from './routes/ImageRouter'
 
 class App {
   public app: express.Application
@@ -33,6 +34,7 @@ class App {
     })
     this.app.use('/', router)
     this.app.use('/api', HomeworkRouter)
+    this.app.use('/image', ImageRouter)
   }
 
   private handleError(): void {

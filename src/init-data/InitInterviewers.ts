@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose'
-import { Interviewer } from '../models/Interviewer'
-import * as interviewers from '../../data/interviewer.json'
+import { interviewerModel, Interviewer } from '../models/Interviewer'
+
+const interviewers: interviewerModel[] = require('../../data/interviewer.json') // tslint:disable-line
 
 const dbURI = `mongodb://localhost/homework-tracker-${process.env.NODE_ENV}`
 mongoose.connect(dbURI, () => {
