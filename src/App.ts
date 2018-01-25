@@ -1,24 +1,22 @@
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
-import * as mongoose from 'mongoose'
 import * as morgan from 'morgan'
+import * as dotenv from 'dotenv'
+import connectDB from './helpers/DBHelper'
 import HomeworkRouter from './routes/HomeworkRouter'
 import ImageRouter from './routes/ImageRouter'
+
+dotenv.config()
 
 class App {
   public app: express.Application
 
   constructor() {
     this.app = express()
-    this.connectDatabase()
+    connectDB()
     this.middleware()
     this.routes()
     this.handleError()
-  }
-
-  private connectDatabase(): void {
-    const db = `mongodb://localhost/homework-tracker-${process.env.NODE_ENV}`
-    mongoose.connect(db, { useMongoClient: true })
   }
 
   private middleware(): void {
