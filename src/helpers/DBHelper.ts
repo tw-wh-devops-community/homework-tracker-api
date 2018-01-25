@@ -2,26 +2,31 @@ import * as mongoose from 'mongoose'
 import * as bluebird from 'bluebird'
 import * as dotenv from 'dotenv'
 
-const plugCustomPromise = () => {
-  mongoose.Promise = bluebird
+class DBHelper {
+  constructor() {
+    this.plugCustomPromise()
+    this.setDatabase()
+  }
+
+  public connect(successHandler?) {
+    mongoose.connect(this.db, { useMongoClient: true }).then(() => {
+      if (successHandler) {
+        successHandler()
+      }
+    })
+  }
+
+  private plugCustomPromise() {
+    mongoose.Promise = bluebird
+  }
+
+  private setDatabase() {
+    dotenv.config()
+    const env = process.env
+    const nodeEnv = env.NODE_ENV
+    const databaseURl = env[`DB_HOMEWORK_TRACKER_${nodeEnv.toUpperCase()}`]
+    this.db = `mongodb://${databaseURl}/homework-tracker-${nodeEnv}`
+  }
 }
 
-const setDatabase = () => {
-  dotenv.config()
-  const env = process.env
-  const nodeEnv = env.NODE_ENV
-  const databaseURl = env[`DB_HOMEWORK_TRACKER_${nodeEnv.toUpperCase()}`]
-  return `mongodb://${databaseURl}/homework-tracker-${nodeEnv}`
-}
-
-const connectDB = (successHandler?) => {
-  plugCustomPromise()
-  const db = setDatabase()
-  mongoose.connect(db, { useMongoClient: true }).then(() => {
-    if (successHandler) {
-      successHandler()
-    }
-  })
-}
-
-export default connectDB
+export default new DBHelper()

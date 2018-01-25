@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose'
-import connectDB from '../helpers/DBHelper'
+import dbHelper from '../helpers/DBHelper'
 import { interviewerModel, Interviewer } from '../models/Interviewer'
 
 const interviewers: interviewerModel[] = require('../../data/interviewer.json') // tslint:disable-line
@@ -19,4 +19,4 @@ const initInterviewers = () => {
   })
 }
 
-connectDB(initInterviewers)
+dbHelper.connect(initInterviewers)

@@ -1,7 +1,7 @@
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import * as morgan from 'morgan'
-import connectDB from './helpers/DBHelper'
+import dbHelper from './helpers/DBHelper'
 import HomeworkRouter from './routes/HomeworkRouter'
 import ImageRouter from './routes/ImageRouter'
 
@@ -10,7 +10,7 @@ class App {
 
   constructor() {
     this.app = express()
-    connectDB()
+    dbHelper.connect()
     this.middleware()
     this.routes()
     this.handleError()
