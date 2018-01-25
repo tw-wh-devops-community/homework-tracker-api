@@ -7,50 +7,59 @@
 - npm(v3.10.10)
 
 
-### How to Run
+### How to Run in development
 
-#### Download codebase
+#### 1. Download codebase
 
 ```
 git clone git@github.com:tw-wh-devops-community/homework-tracker-api.git
 cd homework-tracker-api
 ```
-#### [Set node version via nvm](https://github.com/creationix/nvm#nvmrc) and install dependencies
+#### 2. [Set node version via nvm](https://github.com/creationix/nvm#nvmrc) and install dependencies
 ```
 nvm install
 nvm use
 npm install
 ```
 
-#### Run MongoDB
+#### 3. Start MongoDB
 ```
 mongod
 ```
 
-#### Dynamically Build TypeScript to JavaScript ES5
+#### 4. Setup database according to different environments
+
+We use [dotenv](https://github.com/motdotla/dotenv) to setup database for different environments.
+
+Please copy the `.env.example` file to `.env`, and then update the `.env` file to your own settings.
+```
+cp .env.example .env
+```
+
+#### 5. Init database via seed in dev environment
+```
+npm run db:seed-dev
+```
+ 
+
+#### 6. Dynamically Build TypeScript to JavaScript ES5
 ```
 npm run watch
 ```
 
-#### Build TypeScript to JavaScript ES5 for once
-```
-npm run build
-```
-
-#### Run application in dev mode
+#### 7. Start application
 ```
 npm run start-dev 
 ```
 
-#### Run application in production mode
-```
-npm run start-prod
-```
-
-#### Run Test
+#### 8. Run Test
 ```
 npm test
 ```
+
+### How to run in production
+
+Please refer to the [Travis config](https://github.com/tw-wh-devops-community/homework-tracker-api/blob/master/.travis.yml) scripts.
 
 ### MongoDB GUI 
 
