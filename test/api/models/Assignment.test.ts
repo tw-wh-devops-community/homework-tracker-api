@@ -2,7 +2,7 @@ import * as chai from 'chai'
 import { Homework } from '../../../src/models/Homework'
 import { Interviewer } from '../../../src/models/Interviewer'
 import { Assignment } from '../../../src/models/Assignment'
-import { resetDB } from '../../db.spec'
+import { resetDB } from '../../db-test-setup'
 
 const expect = chai.expect
 describe('Assignment model test', () => {

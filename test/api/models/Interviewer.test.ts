@@ -1,6 +1,6 @@
 import * as chai from 'chai'
 import { Interviewer } from '../../../src/models/Interviewer'
-import { resetDB } from '../../db.spec'
+import { resetDB } from '../../db-test-setup'
 
 const expect = chai.expect
 describe('interviewer model test', () => {
