@@ -22,6 +22,6 @@ dbHelper.connect().then(() => {
 }).then(() => {
   disconnectDB()
 }).catch((error) => {
-  console.log('Error when importing data', error)
+  console.log('Error when importing data', error) // tslint:disable-line
   disconnectDB()
 })
