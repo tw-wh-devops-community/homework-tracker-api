@@ -1,6 +1,7 @@
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import * as morgan from 'morgan'
+import * as cors from 'cors'
 import dbHelper from './helpers/DBHelper'
 import HomeworkRouter from './routes/HomeworkRouter'
 import ImageRouter from './routes/ImageRouter'
@@ -19,6 +20,7 @@ class App {
   private middleware(): void {
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(bodyParser.json())
+    this.app.use(cors())
     this.app.use(morgan('combined'))
   }
 
