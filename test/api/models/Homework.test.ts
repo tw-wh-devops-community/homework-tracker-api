@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import { Homework } from '../../../src/models/Homework'
+import Homework from '../../../src/models/Homework'
 import { resetDB } from '../../db-test-setup'
 
 const expect = chai.expect
