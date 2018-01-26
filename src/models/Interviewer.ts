@@ -1,12 +1,13 @@
 import * as mongoose from 'mongoose'
+import { roleType } from '../helpers/Constant'
 
 const storePicBathUrl = 'fakeStorePicBathUrl'
 
 export type interviewerModel = mongoose.Document & {
   name: string,
-  role: string,
+  role: roleType,
   employee_id: string,
-  getPicUrl(): string;
+  getPicUrl(): string,
 }
 
 const interviewerSchema = new mongoose.Schema({
