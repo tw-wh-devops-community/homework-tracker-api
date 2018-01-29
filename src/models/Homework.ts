@@ -1,8 +1,9 @@
 import * as mongoose from 'mongoose'
+import { roleType } from '../helpers/Constant'
 
 export type homeworkModel = mongoose.Document & {
   name: string,
-  job_role: string,
+  job_role: roleType,
 }
 
 const homeworkSchema = new mongoose.Schema({

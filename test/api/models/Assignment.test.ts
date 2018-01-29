@@ -3,6 +3,7 @@ import Homework from '../../../src/models/Homework'
 import { Interviewer } from '../../../src/models/Interviewer'
 import { Assignment } from '../../../src/models/Assignment'
 import { resetDB } from '../../db-test-setup'
+import { roleType } from '../../../src/helpers/Constant'
 
 const expect = chai.expect
 describe('Assignment model test', () => {
@@ -11,7 +12,7 @@ describe('Assignment model test', () => {
   })
 
   it('should get the saved assignment info', async () => {
-    const interviewer = new Interviewer({name: 'foo1', employee_id: '123', role:'QA'})
+    const interviewer = new Interviewer({name: 'foo1', employee_id: '123', role:roleType.QA})
     const savedInterviewer = await interviewer.save()
     const homework = new Homework({name: 'foo2', job_role: 'QA'})
     const savedHomework = await homework.save()
