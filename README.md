@@ -61,7 +61,16 @@ npm test
 
 Please refer to the [Travis config](https://github.com/tw-wh-devops-community/homework-tracker-api/blob/master/.travis.yml) scripts.
 
-### MongoDB GUI 
+### how to update the image data in production
+The latest image data should update on google drive (tw-wh-devops-community/HomeworkTracker/data/image/thumbnail)
+You can download it, and use the scp to upload the images to aws ec2 server.
+the ec2 PEM private key can get from the team member.
+the upload script will be like
+```
+sudo scp -i $EC2_SERVER.pem $LOCAL_IMAGE_DIRECTORY/*.png USER@IP:/home/ec2-user/homework/upload
+```
+
+### MongoDB GUI
 
 We use [Robo 3T](https://robomongo.org/)
 
