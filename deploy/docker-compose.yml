@@ -11,6 +11,8 @@ services:
       image: "registry.cn-hangzhou.aliyuncs.com/wjyao/homework-tracker-api"
       ports:
         - 5678:5678
+      volumes:
+        - ~/homework/upload:/upload
     web:
       image: "registry.cn-hangzhou.aliyuncs.com/wjyao/homework-tracker-web"
       ports:
