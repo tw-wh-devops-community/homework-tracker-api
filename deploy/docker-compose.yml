@@ -13,6 +13,7 @@ services:
         - 5678:5678
       volumes:
         - ~/homework/upload:/upload
+        - ~/homework/logs:/homework-logs
     web:
       image: "registry.cn-hangzhou.aliyuncs.com/wjyao/homework-tracker-web"
       ports:

@@ -4,7 +4,6 @@ import * as morgan from 'morgan'
 import * as cors from 'cors'
 import * as fs from 'fs'
 import * as rfs from 'rotating-file-stream'
-import * as path from 'path'
 import dbHelper from './helpers/DBHelper'
 import envHelper from './helpers/EnvHelper'
 import HomeworkRouter from './routes/HomeworkRouter'
@@ -34,7 +33,7 @@ class App {
   }
 
   private getRFSAccessLogStream(): any {
-    const logDirectory = path.join(__dirname, 'log')
+    const logDirectory = '/homework-logs/'
 
     if (!fs.existsSync(logDirectory)) {
       fs.mkdirSync(logDirectory)
