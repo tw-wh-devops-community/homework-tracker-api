@@ -17,8 +17,8 @@ const disconnectDB = () => {
   })
 }
 
-dbHelper.connect().then(() => {
-  initInterviewers()
+dbHelper.connect().then(async () => {
+  await initInterviewers()
 }).then(() => {
   disconnectDB()
 }).catch((error) => {
