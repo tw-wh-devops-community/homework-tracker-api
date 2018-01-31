@@ -1,4 +1,4 @@
-import Homework from '../models/Homework'
+import {Homework} from '../models/Homework'
 
 export const getHomeworks = (req, res) => {
   Homework.find({}, (err, homework) => {
