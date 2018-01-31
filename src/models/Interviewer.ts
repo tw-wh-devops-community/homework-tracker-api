@@ -1,11 +1,11 @@
 import * as mongoose from 'mongoose'
-import { roleType } from '../helpers/Constant'
+import { RoleType } from '../helpers/Constant'
 
 const storePicBathUrl = 'fakeStorePicBathUrl'
 
-export type interviewerModel = mongoose.Document & {
+export type InterviewerModel = mongoose.Document & {
   name: string,
-  role: roleType,
+  role: RoleType,
   employee_id: string,
   getPicUrl(): string,
 }
@@ -32,4 +32,4 @@ interviewerSchema.methods.getPicUrl = function(): string {
   return `${storePicBathUrl}${this.employee_id}`;
 };
 
-export const Interviewer = mongoose.model<interviewerModel>('Interviewer', interviewerSchema)
+export const Interviewer = mongoose.model<InterviewerModel>('Interviewer', interviewerSchema)

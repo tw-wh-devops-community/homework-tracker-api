@@ -2,7 +2,10 @@ import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import * as morgan from 'morgan'
 import * as cors from 'cors'
+import * as fs from 'fs'
+import * as rfs from 'rotating-file-stream'
 import dbHelper from './helpers/DBHelper'
+import envHelper from './helpers/EnvHelper'
 import HomeworkRouter from './routes/HomeworkRouter'
 import ImageRouter from './routes/ImageRouter'
 
@@ -21,7 +24,29 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(bodyParser.json())
     this.app.use(cors())
-    this.app.use(morgan('combined'))
+    if (envHelper.getNodeEnv() !== 'PROD') {
+      this.app.use(morgan('combined'))
+    } else {
+      const accessLogStream = this.getRFSAccessLogStream()
+      this.app.use(morgan('combined', {stream: accessLogStream}))
+    }
+  }
+
+  private getRFSAccessLogStream(): any {
+    const logDirectory = '/homework-logs/'
+
+    if (!fs.existsSync(logDirectory)) {
+      fs.mkdirSync(logDirectory)
+    }
+
+    const accessLogStream = rfs('access.log', {
+      size:     '10M',
+      interval: '10d',
+      compress: 'gzip',
+      maxFiles: 10,
+      path: logDirectory,
+    })
+    return accessLogStream
   }
 
   private routes() {

@@ -1,4 +1,4 @@
-export const enum roleType {
+export const enum RoleType {
   DEV = 'DEV',
   QA = 'QA',
   BA = 'BA',

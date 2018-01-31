@@ -1,7 +1,7 @@
 import dbHelper from '../helpers/DBHelper'
-import { interviewerModel, Interviewer } from '../models/Interviewer'
+import { InterviewerModel, Interviewer } from '../models/Interviewer'
 
-const interviewers: interviewerModel[] = require('../../data/interviewer.json') // tslint:disable-line
+const interviewers: InterviewerModel[] = require('../../data/interviewer.json') // tslint:disable-line
 
 const initInterviewers = () => {
   interviewers.forEach(async (interviewerData) => {
@@ -17,8 +17,8 @@ const disconnectDB = () => {
   })
 }
 
-dbHelper.connect().then(() => {
-  initInterviewers()
+dbHelper.connect().then(async () => {
+  await initInterviewers()
 }).then(() => {
   disconnectDB()
 }).catch((error) => {

@@ -1,13 +1,11 @@
-import {Response, Request} from 'express'
+import { Response, Request } from 'express'
 import * as fs from 'fs'
-import * as dotenv from 'dotenv'
+import envHelper from '../helpers/EnvHelper'
 
 export let getImage = async (req: Request, res: Response) => {
   try {
-    dotenv.config()
-    const env = process.env
-    const nodeEnv = env.NODE_ENV
-    const imageDirectoryPath = env[`UPLOAD_IMAGE_FILE_PATH_${nodeEnv.toUpperCase()}`]
+    const nodeEnv = envHelper.getNodeEnv()
+    const imageDirectoryPath = envHelper.getEnvProperty(`UPLOAD_IMAGE_FILE_PATH_${nodeEnv}`)
     const imagePath = imageDirectoryPath + req.params.id + '.png'
 
     if (fs.existsSync(imagePath)) {

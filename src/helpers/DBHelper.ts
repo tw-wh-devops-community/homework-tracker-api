@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose'
 import * as bluebird from 'bluebird'
-import * as dotenv from 'dotenv'
+import envHelper from './EnvHelper';
 
 export class DBHelper {
   private db: any
@@ -23,10 +23,8 @@ export class DBHelper {
   }
 
   private setDatabase() {
-    dotenv.config()
-    const env = process.env
-    const nodeEnv = env.NODE_ENV
-    const databaseURl = env[`DB_HOMEWORK_TRACKER_${nodeEnv.toUpperCase()}`]
+    const nodeEnv = envHelper.getNodeEnv()
+    const databaseURl = envHelper.getEnvProperty(`DB_HOMEWORK_TRACKER_${nodeEnv}`)
     this.db = `mongodb://${databaseURl}/homework-tracker-${nodeEnv}`
   }
 }

@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose'
 
-export type assignmentModel = mongoose.Document & {
+export type AssignmentModel = mongoose.Document & {
   homework_id: any,
   interviewer_id: any,
   assigned_date: Date,
@@ -33,4 +33,4 @@ const assignmentSchema = new mongoose.Schema({
 })
 
 export const Assignment =
-  mongoose.model<assignmentModel>('Assignment', assignmentSchema)
+  mongoose.model<AssignmentModel>('Assignment', assignmentSchema)
