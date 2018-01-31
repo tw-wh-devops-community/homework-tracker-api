@@ -8,6 +8,7 @@ import dbHelper from './helpers/DBHelper'
 import envHelper from './helpers/EnvHelper'
 import AssignmentRouter from './routes/AssignmentRouter'
 import ImageRouter from './routes/ImageRouter'
+import ENV from './config/Env'
 
 class App {
   public app: express.Application
@@ -24,7 +25,7 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(bodyParser.json())
     this.app.use(cors())
-    if (envHelper.getNodeEnv() !== 'PROD') {
+    if (envHelper.getNodeEnv() !== ENV.PROD) {
       this.app.use(morgan('combined'))
     } else {
       const accessLogStream = this.getRFSAccessLogStream()
