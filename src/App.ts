@@ -9,6 +9,7 @@ import envHelper from './helpers/EnvHelper'
 import AssignmentRouter from './routes/AssignmentRouter'
 import ImageRouter from './routes/ImageRouter'
 import ENV from './config/Env'
+import { LOG_DIRECTORY, LOG_FILE } from './config/LogConfig'
 
 class App {
   public app: express.Application
@@ -34,13 +35,13 @@ class App {
   }
 
   private getRFSAccessLogStream(): any {
-    const logDirectory = '/homework-logs/'
+    const logDirectory = LOG_DIRECTORY
 
     if (!fs.existsSync(logDirectory)) {
       fs.mkdirSync(logDirectory)
     }
 
-    const accessLogStream = rfs('access.log', {
+    const accessLogStream = rfs(LOG_FILE, {
       size:     '10M',
       interval: '10d',
       compress: 'gzip',
