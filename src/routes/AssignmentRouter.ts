@@ -7,7 +7,7 @@ import {
   getAssignmentById,
 } from '../controllers/AssignmentController'
 
-class GenernalRouterConfig {
+class AssignmentRouter {
   public router: Router
 
   constructor() {
@@ -23,4 +23,4 @@ class GenernalRouterConfig {
   }
 }
 
-export default new GenernalRouterConfig().router
+export default new AssignmentRouter().router
