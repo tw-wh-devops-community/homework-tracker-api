@@ -1,8 +1,4 @@
 import { Router } from 'express'
-import {
-  getHomeworks,
-  createHomework,
-} from '../controllers/HomeworkController'
 
 import {
   createAssignment,
@@ -11,7 +7,7 @@ import {
   getAssignmentById,
 } from '../controllers/AssignmentController'
 
-class HomeworkRouter {
+class GenernalRouterConfig {
   public router: Router
 
   constructor() {
@@ -20,9 +16,6 @@ class HomeworkRouter {
   }
 
   private init(): void {
-    this.router.get('/homeworks', getHomeworks)
-    this.router.post('/homeworks', createHomework)
-
     this.router.get('/assignment', listAssignments)
     this.router.get('/assignment/:id', getAssignmentById)
     this.router.post('/assignment', createAssignment)
@@ -30,4 +23,4 @@ class HomeworkRouter {
   }
 }
 
-export default new HomeworkRouter().router
+export default new GenernalRouterConfig().router

@@ -6,7 +6,7 @@ import * as fs from 'fs'
 import * as rfs from 'rotating-file-stream'
 import dbHelper from './helpers/DBHelper'
 import envHelper from './helpers/EnvHelper'
-import HomeworkRouter from './routes/HomeworkRouter'
+import GenernalRouterConfig from './routes/RouterConfig'
 import ImageRouter from './routes/ImageRouter'
 
 class App {
@@ -55,7 +55,7 @@ class App {
       res.json({ message: 'Hello World!' })
     })
     this.app.use('/', router)
-    this.app.use('/api', HomeworkRouter)
+    this.app.use('/api', GenernalRouterConfig)
     this.app.use('/image', ImageRouter)
   }
 

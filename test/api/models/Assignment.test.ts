@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import Homework from '../../../src/models/Homework'
+import { Homework } from '../../../src/models/Homework'
 import { Interviewer } from '../../../src/models/Interviewer'
 import { Assignment } from '../../../src/models/Assignment'
 import { resetDB } from '../../db-test-setup'
