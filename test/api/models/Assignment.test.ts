@@ -3,7 +3,7 @@ import { Homework } from '../../../src/models/Homework'
 import { Interviewer } from '../../../src/models/Interviewer'
 import { Assignment } from '../../../src/models/Assignment'
 import { resetDB } from '../../db-test-setup'
-import { RoleType } from '../../../src/helpers/Constant'
+import { RoleType } from '../../../src/config/RoleType'
 
 const expect = chai.expect
 describe('Assignment model test', () => {

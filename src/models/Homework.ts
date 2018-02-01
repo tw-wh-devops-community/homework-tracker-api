@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose'
-import { RoleType } from '../helpers/Constant'
+import { RoleType } from '../config/RoleType'
 
 export type HomeworkModel = mongoose.Document & {
   name: string,
