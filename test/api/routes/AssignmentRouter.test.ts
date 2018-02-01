@@ -31,14 +31,14 @@ describe('assignment api when no assignment data in db', async () => {
   });
 
   it('should get empty assignment ', async () => {
-    const getAllAssignmentsRequest = await chai.request(app).get('/api/assignment')
+    const getAllAssignmentsRequest = await chai.request(app).get('/api/assignments')
 
     expect(getAllAssignmentsRequest.res.body.length).to.eql(0)
   })
 
   it('should get all assignment with data after create', async () => {
-    const createAssignmentRequest = await chai.request(app).post('/api/assignment').send(payload)
-    const getAllAssignmentsRequest = await chai.request(app).get('/api/assignment')
+    const createAssignmentRequest = await chai.request(app).post('/api/assignments').send(payload)
+    const getAllAssignmentsRequest = await chai.request(app).get('/api/assignments')
 
     expect(createAssignmentRequest.res.body).to.eql({message: 'create Successful'})
     expect(getAllAssignmentsRequest.res.body.length).to.eql(2)
@@ -60,9 +60,9 @@ describe('assignment api when assignments data in db', async () => {
     const interviewer2 = new Interviewer({name: 'interviewer2', employee_id: '321', role: RoleType.DEV})
     await interviewer2.save()
     await interviewer1.save()
-    await chai.request(app).post('/api/assignment').send(payload)
+    await chai.request(app).post('/api/assignments').send(payload)
 
-    const getAllAssignmentsRequest = await chai.request(app).get('/api/assignment')
+    const getAllAssignmentsRequest = await chai.request(app).get('/api/assignments')
     assignmentId = getAllAssignmentsRequest.res.body[0].id
   });
 
@@ -72,13 +72,13 @@ describe('assignment api when assignments data in db', async () => {
 
 
   it('should get all assignment with data after create', async () => {
-    const getAllAssignmentsRequest = await chai.request(app).get('/api/assignment')
+    const getAllAssignmentsRequest = await chai.request(app).get('/api/assignments')
 
     expect(getAllAssignmentsRequest.res.body.length).to.eql(1)
   })
 
   it('should get assignment by id', async () => {
-    const getAssignmentsByIdRequest = await chai.request(app).get(`/api/assignment/${assignmentId}`)
+    const getAssignmentsByIdRequest = await chai.request(app).get(`/api/assignments/${assignmentId}`)
     const { res } = getAssignmentsByIdRequest
 
     expect(res.body.homework.name).to.eql('candidateName')
@@ -89,8 +89,8 @@ describe('assignment api when assignments data in db', async () => {
   })
 
   it('should delete assignment by id', async () => {
-    const deleteAssignmentRequest = await chai.request(app).delete(`/api/assignment/${assignmentId}`)
-    const getAllAssignmentsRequest = await chai.request(app).get('/api/assignment')
+    const deleteAssignmentRequest = await chai.request(app).delete(`/api/assignments/${assignmentId}`)
+    const getAllAssignmentsRequest = await chai.request(app).get('/api/assignments')
 
     expect(deleteAssignmentRequest.res.body).to.eql({message: 'deleted'})
     expect(getAllAssignmentsRequest.res.body.length).to.eql(0)
@@ -104,8 +104,8 @@ describe('assignment api when assignments data in db', async () => {
       assignedDate: '2011-01-01',
       deadlineDate: '2011-02-12',
     }
-    const createAssignmentsRequest = await chai.request(app).post('/api/assignment').send(payload1)
-    const getAllAssignmentsRequest = await chai.request(app).get('/api/assignment')
+    const createAssignmentsRequest = await chai.request(app).post('/api/assignments').send(payload1)
+    const getAllAssignmentsRequest = await chai.request(app).get('/api/assignments')
 
     expect(createAssignmentsRequest.res.body).to.eql({message: 'create Successful'})
     expect(getAllAssignmentsRequest.res.body.length).to.eql(2)
@@ -119,8 +119,8 @@ describe('assignment api when assignments data in db', async () => {
       assignedDate: '2011-01-01',
       deadlineDate: '2011-02-12',
     }
-    const createAssignmentsRequest = await chai.request(app).post('/api/assignment').send(payload1)
-    const getAllAssignmentsRequest = await chai.request(app).get('/api/assignment')
+    const createAssignmentsRequest = await chai.request(app).post('/api/assignments').send(payload1)
+    const getAllAssignmentsRequest = await chai.request(app).get('/api/assignments')
 
     expect(createAssignmentsRequest.res.body).to.eql({message: 'create Successful'})
     expect(getAllAssignmentsRequest.res.body.length).to.eql(3)

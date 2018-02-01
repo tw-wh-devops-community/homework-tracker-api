@@ -16,10 +16,10 @@ class AssignmentRouter {
   }
 
   private init(): void {
-    this.router.get('/assignment', listAssignments)
-    this.router.get('/assignment/:id', getAssignmentById)
-    this.router.post('/assignment', createAssignment)
-    this.router.delete('/assignment/:id', deleteAssignment)
+    this.router.get('/assignments', listAssignments)
+    this.router.get('/assignments/:id', getAssignmentById)
+    this.router.post('/assignments', createAssignment)
+    this.router.delete('/assignments/:id', deleteAssignment)
   }
 }
 

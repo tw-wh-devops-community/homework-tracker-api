@@ -2,7 +2,7 @@ import { Assignment, AssignmentModel } from '../models/Assignment'
 import { Interviewer } from '../models/Interviewer'
 import { Homework } from '../models/Homework'
 import { AssignmentDTO } from '../dto/Assignment'
-import { mapAssignmentItem } from '../helpers/Model2DTOMapper'
+import { mapAssignmentItem } from '../helpers/AssignmentModel2DTOMapper'
 
 const getAssignmentItem = async (assignment) => {
   const homework = await Homework.findOne({_id: assignment.homework_id})
