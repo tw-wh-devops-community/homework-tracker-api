@@ -9,9 +9,9 @@ export let getImage = async (req: Request, res: Response) => {
       res.setHeader('Content-Type', 'image/jpeg')
       fs.createReadStream(imagePath).pipe(res)
     } else {
-      res.sendStatus(404);
+      res.sendStatus(404)
     }
   } catch (err) {
-    res.sendStatus(400);
+    res.sendStatus(400)
   }
-};
+}

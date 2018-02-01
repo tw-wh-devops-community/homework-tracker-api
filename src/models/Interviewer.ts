@@ -29,7 +29,7 @@ const interviewerSchema = new mongoose.Schema({
 })
 
 interviewerSchema.methods.getPicUrl = function(): string {
-  return `${storePicBathUrl}${this.employee_id}`;
-};
+  return `${storePicBathUrl}${this.employee_id}`
+}
 
 export const Interviewer = mongoose.model<InterviewerModel>('Interviewer', interviewerSchema)

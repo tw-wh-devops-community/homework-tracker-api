@@ -17,7 +17,7 @@
         "no-unused-variable": true,
         "no-use-before-declare": true,
         "quotemark": [true, "single"],
-        "semicolon": false,
+        "semicolon": [true, "never"],
         "use-strict": false,
         "ordered-imports": false,
         "object-literal-key-quotes": false,

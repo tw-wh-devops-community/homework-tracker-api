@@ -11,6 +11,7 @@ import ImageRouter from './routes/ImageRouter'
 import ENV from './constants/Env'
 import { LOG_DIRECTORY, LOG_FILE } from './constants/LogConfig'
 import InterviewerRouter from './routes/InterviewerRouter'
+import RoleRouter from './routes/RoleRouter'
 
 class App {
   public app: express.Application
@@ -61,6 +62,7 @@ class App {
     this.app.use('/image', ImageRouter)
     this.app.use('/api', AssignmentRouter)
     this.app.use('/api', InterviewerRouter)
+    this.app.use('/api', RoleRouter)
   }
 
   private handleError(): void {

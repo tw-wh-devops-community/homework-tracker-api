@@ -42,14 +42,14 @@ export const createAssignment = async (req, res) => {
     await assignment.save()
   })
 
-  res.json({message: 'create Successful'});
+  res.json({message: 'create Successful'})
 }
 
 export const deleteAssignment = async (req, res) => {
   try {
     await Assignment.remove({_id: req.params.id}).exec()
-    res.json({message: 'deleted'});
+    res.json({message: 'deleted'})
   } catch (err) {
-    res.status(404).json({error: err});
+    res.status(404).json({error: err})
   }
 }
