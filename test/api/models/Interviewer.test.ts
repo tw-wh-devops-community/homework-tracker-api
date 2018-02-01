@@ -1,6 +1,6 @@
 import * as chai from 'chai'
 import { Interviewer } from '../../../src/models/Interviewer'
-import { RoleType } from '../../../src/config/RoleType'
+import RoleType from '../../../src/models/RoleType'
 import { resetDB } from '../../db-test-setup'
 
 const expect = chai.expect

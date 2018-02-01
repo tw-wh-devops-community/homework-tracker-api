@@ -1,8 +1,7 @@
 import * as chai from 'chai'
 import chaiHttp = require('chai-http')
-import { resetDB } from '../../db-test-setup'
 import { Interviewer } from '../../../src/models/Interviewer'
-import { RoleType } from "../../../src/helpers/Constant";
+import RoleType from '../../../src/models/RoleType'
 import { resetDB } from '../../db-test-setup'
 
 import app from '../../../src/App'

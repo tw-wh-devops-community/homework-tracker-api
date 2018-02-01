@@ -1,4 +1,4 @@
-import { ReviewStatus } from './Constant'
+import ReviewStatus from '../models/ReviewStatus'
 
 const mapHomeworkItem = ({_id, name, job_role}) => {
   return {

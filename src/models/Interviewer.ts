@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose'
-import { RoleType } from '../config/RoleType'
+import RoleType from '../models/RoleType'
 
 const storePicBathUrl = 'fakeStorePicBathUrl'
 

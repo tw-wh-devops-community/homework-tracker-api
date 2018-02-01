@@ -8,8 +8,8 @@ import dbHelper from './helpers/DBHelper'
 import envHelper from './helpers/EnvHelper'
 import AssignmentRouter from './routes/AssignmentRouter'
 import ImageRouter from './routes/ImageRouter'
-import ENV from './config/Env'
-import { LOG_DIRECTORY, LOG_FILE } from './config/LogConfig'
+import ENV from './constants/Env'
+import { LOG_DIRECTORY, LOG_FILE } from './constants/LogConfig'
 import InterviewerRouter from './routes/InterviewerRouter'
 
 class App {

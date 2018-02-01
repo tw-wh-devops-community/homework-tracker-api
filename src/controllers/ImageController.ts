@@ -1,6 +1,6 @@
 import { Response, Request } from 'express'
 import * as fs from 'fs'
-import { getUploadPath } from '../config/UploadPath'
+import { getUploadPath } from '../constants/UploadPath'
 
 export let getImage = async (req: Request, res: Response) => {
   try {
