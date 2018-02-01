@@ -16,7 +16,7 @@ script:
   - npm run build
   - npm test
 after_success:
-  - test $TRAVIS_BRANCH = "fix/env" && sh ./buildDockerImage.sh
+  - sh ./buildDockerImage.sh
 
 
 
