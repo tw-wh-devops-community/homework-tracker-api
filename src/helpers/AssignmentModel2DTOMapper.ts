@@ -11,7 +11,7 @@ const mapHomeworkItem = ({_id, name, job_role}) => {
 const mapInterviewerItem = ({_id, name, role, employee_id}) => {
   return {
     id: _id,
-    name,
+    candidate: name,
     role,
     employee_id,
   }
