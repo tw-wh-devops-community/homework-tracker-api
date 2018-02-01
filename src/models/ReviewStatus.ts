@@ -1,4 +1,4 @@
-const enum ReviewStatus {
+enum ReviewStatus {
   finished = 'finished',
   ongoing = 'ongoing',
   overdue = 'overdue',

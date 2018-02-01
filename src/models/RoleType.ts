@@ -1,4 +1,4 @@
-const enum RoleType {
+enum RoleType {
   DEV = 'DEV',
   QA = 'QA',
   BA = 'BA',
