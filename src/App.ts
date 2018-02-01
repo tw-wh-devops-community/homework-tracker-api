@@ -10,6 +10,7 @@ import AssignmentRouter from './routes/AssignmentRouter'
 import ImageRouter from './routes/ImageRouter'
 import ENV from './config/Env'
 import { LOG_DIRECTORY, LOG_FILE } from './config/LogConfig'
+import InterviewerRouter from './routes/InterviewerRouter'
 
 class App {
   public app: express.Application
@@ -57,8 +58,9 @@ class App {
       res.json({ message: 'Hello World!' })
     })
     this.app.use('/', router)
-    this.app.use('/api', AssignmentRouter)
     this.app.use('/image', ImageRouter)
+    this.app.use('/api', AssignmentRouter)
+    this.app.use('/api', InterviewerRouter)
   }
 
   private handleError(): void {
