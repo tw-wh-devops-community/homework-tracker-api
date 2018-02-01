@@ -16,7 +16,7 @@ script:
   - npm run build
   - npm test
 after_success:
-  - sh ./buildDockerImage.sh
+  - test $TRAVIS_BRANCH = "master" && sh ./buildDockerImage.sh
 
 
 
