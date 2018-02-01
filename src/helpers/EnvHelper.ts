@@ -8,7 +8,7 @@ export class EnvHelper {
   }
 
   public getNodeEnv() {
-    return this.env.NODE_ENV.toUpperCase()
+    return this.env.NODE_ENV
   }
 
   public getEnvProperty(key: string) {
