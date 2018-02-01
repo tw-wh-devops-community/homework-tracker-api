@@ -80,7 +80,7 @@ describe('assignment api when assignments data in db', async () => {
     const getAssignmentsByIdRequest = await chai.request(app).get(`/api/assignments/${assignmentId}`)
     const { res } = getAssignmentsByIdRequest
 
-    expect(res.body.homework.name).to.eql('candidateName')
+    expect(res.body.homework.candidate).to.eql('candidateName')
     expect(res.body.homework.job_role).to.eql('DEV')
     expect(res.body.interviewer.role).to.eql('DEV')
     expect(res.body.interviewer.employee_id).to.eql('321')

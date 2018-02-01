@@ -3,7 +3,7 @@ import ReviewStatus from '../models/ReviewStatus'
 const mapHomeworkItem = ({_id, name, job_role}) => {
   return {
     id: _id,
-    name,
+    candidate: name,
     job_role,
   }
 }
@@ -11,7 +11,7 @@ const mapHomeworkItem = ({_id, name, job_role}) => {
 const mapInterviewerItem = ({_id, name, role, employee_id}) => {
   return {
     id: _id,
-    candidate: name,
+    name,
     role,
     employee_id,
   }
