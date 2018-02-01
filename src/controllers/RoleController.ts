@@ -1,4 +1,3 @@
-import * as _ from 'lodash'
 import RoleType from '../models/RoleType'
 import { getValues } from '../helpers/EnumHelper'
 
