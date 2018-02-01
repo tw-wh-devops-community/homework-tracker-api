@@ -5,5 +5,5 @@ export interface AssignmentDTO {
   assigned_date: Date,
   deadline_date: Date,
   finished_date: Date,
-  is_finished: boolean
+  status: string
 }

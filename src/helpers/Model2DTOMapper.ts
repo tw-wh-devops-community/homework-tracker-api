@@ -1,3 +1,5 @@
+import { ReviewStatus } from './Constant'
+
 const mapHomeworkItem = ({_id, name, job_role}) => {
   return {
     id: _id,
@@ -16,6 +18,10 @@ const mapInterviewerItem = ({_id, name, role, employee_id}) => {
 }
 
 export const mapAssignmentItem = (homework, interviewer, assignment) => {
+  const status = assignment.is_finished ?
+    ReviewStatus.finished :
+    new Date() < new Date(assignment.deadline_date) ? ReviewStatus.ongoing : ReviewStatus.overdue
+
   return {
     id: assignment._id,
     homework: mapHomeworkItem(homework),
@@ -23,6 +29,6 @@ export const mapAssignmentItem = (homework, interviewer, assignment) => {
     assigned_date: assignment.assigned_date,
     deadline_date: assignment.deadline_date,
     finished_date: assignment.finished_date,
-    is_finished: assignment.is_finished,
+    status,
   }
 }
