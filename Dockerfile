@@ -15,5 +15,9 @@ RUN npm run build
 
 EXPOSE 5678
 
+ARG DB_HOMEWORK_TRACKER_PROD
+
+ENV DB_HOMEWORK_TRACKER_PROD ${DB_HOMEWORK_TRACKER_PROD}
+
 # defined in package.json
 CMD [ "npm", "run", "start-prod" ]
