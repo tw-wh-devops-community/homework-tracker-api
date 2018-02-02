@@ -33,6 +33,10 @@ export const createAssignments = async (req, res) => {
   const savedHomework = await homework.save()
   const interviewers = await Interviewer.find({'employee_id': {$in: data.interviewerIds}})
 
+  if (interviewers.length === 0) {
+    res.status(400).json({message: 'bad request, please check the homework interviewers'})
+  }
+
   interviewers.forEach(async (interviewer) => {
     const assignment = new Assignment({
       assigned_date: new Date(data.assignedDate),
