@@ -2,12 +2,12 @@ import { Assignment, AssignmentModel } from '../models/Assignment'
 import { Interviewer } from '../models/Interviewer'
 import { Homework } from '../models/Homework'
 import { AssignmentDTO } from '../dto/Assignment'
-import { mapAssignmentItem } from '../helpers/AssignmentModel2DTOMapper'
+import { mapAssignment } from '../dto-mapper/AssignmentMapper'
 
 const getAssignmentItem = async (assignment) => {
   const homework = await Homework.findOne({_id: assignment.homework_id})
   const interviewer = await Interviewer.findOne({_id: assignment.interviewer_id})
-  return mapAssignmentItem(homework, interviewer, assignment)
+  return mapAssignment(homework, interviewer, assignment)
 }
 
 export const getAssignments = async (req, res) => {
