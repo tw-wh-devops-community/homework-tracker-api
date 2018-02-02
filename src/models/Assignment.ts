@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose'
+import ReviewStatus from './ReviewStatus'
 
 export type AssignmentModel = mongoose.Document & {
   homework_id: any,
@@ -7,6 +8,7 @@ export type AssignmentModel = mongoose.Document & {
   deadline_date: Date,
   finished_date: Date,
   is_finished: boolean,
+  getStatus(): ReviewStatus,
 }
 
 const assignmentSchema = new mongoose.Schema({
@@ -31,6 +33,13 @@ const assignmentSchema = new mongoose.Schema({
     type: Date,
   },
 })
+
+assignmentSchema.methods.getStatus = function(): string {
+  if (this.is_finished) {
+    return ReviewStatus.finished
+  }
+  return new Date() < new Date(this.deadline_date) ? ReviewStatus.ongoing : ReviewStatus.overdue
+}
 
 export const Assignment =
   mongoose.model<AssignmentModel>('Assignment', assignmentSchema)
