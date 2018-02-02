@@ -63,6 +63,10 @@ class App {
     this.app.use('/api', AssignmentRouter)
     this.app.use('/api', InterviewerRouter)
     this.app.use('/api', RoleRouter)
+
+    this.app.use((err: any, req: Request, res, next) => {
+      res.status(err.status || 500).json(err).send()
+    })
   }
 
   private handleError(): void {
