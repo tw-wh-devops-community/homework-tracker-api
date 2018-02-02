@@ -13,7 +13,7 @@
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "test": "NODE_ENV=test mocha --reporter mochawesome --timeout 120000 --require ts-node/register 'test/**/**/*.test.ts' --exit",
     "precommit": "npm run lint",
-    "prepush": "npm test"
+    "prepush": "npm run lint npm test"
   },
   "author": "",
   "repository": "https://github.com/tw-wh-devops-community/homework-tracker-api",
