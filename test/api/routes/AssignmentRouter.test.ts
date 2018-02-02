@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import chaiHttp = require('chai-http')
+import * as chaiHttp from 'chai-http'
 import { Interviewer } from '../../../src/models/Interviewer'
 import RoleType from '../../../src/models/RoleType'
 import { resetDB } from '../../db-test-setup'
