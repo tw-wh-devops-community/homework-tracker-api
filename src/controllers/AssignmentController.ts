@@ -13,7 +13,7 @@ const getAssignmentItem = async (assignment) => {
 export const getAssignments = async (req, res) => {
   const assignments: AssignmentModel[] = await Assignment
     .find({})
-    .sort({'is_finished': 1, 'deadline_date': 1,'assigned_date': 1})
+    .sort({'is_finished': 1, 'deadline_date': 1, 'assigned_date': 1})
     .exec()
   const resultList: AssignmentDTO[] = await Promise.all(assignments.map(getAssignmentItem))
 
