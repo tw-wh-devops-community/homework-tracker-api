@@ -10,21 +10,21 @@ const getAssignmentItem = async (assignment) => {
   return mapAssignmentItem(homework, interviewer, assignment)
 }
 
-export const listAssignments = async (req, res) => {
+export const getAssignments = async (req, res) => {
   const assignments: AssignmentModel[] = await Assignment.find({}).exec()
   const resultList: AssignmentDTO[] = await Promise.all(assignments.map(getAssignmentItem))
 
   res.json(resultList)
 }
 
-export const getAssignmentById = async (req, res) => {
+export const getAssignment = async (req, res) => {
   const assignment: AssignmentModel = await Assignment.findById(req.params.id).exec()
   const result: AssignmentDTO = await getAssignmentItem(assignment)
 
   res.json(result)
 }
 
-export const createAssignment = async (req, res) => {
+export const createAssignments = async (req, res) => {
   const data = req.body
   const homework = new Homework({name: data.candidateName, job_role: data.jobRole})
   const savedHomework = await homework.save()
@@ -52,4 +52,14 @@ export const deleteAssignment = async (req, res) => {
   } catch (err) {
     res.status(404).json({error: err})
   }
+}
+
+export const updateAssignment = async (req, res) => {
+  const data = req.body
+  const assignment = {
+    finished_date: new Date(data.finished_date),
+    is_finished: data.is_finished,
+  }
+  await Assignment.findByIdAndUpdate(data.id, assignment)
+  res.sendStatus(204)
 }

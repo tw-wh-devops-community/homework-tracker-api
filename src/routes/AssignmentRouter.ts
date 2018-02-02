@@ -1,10 +1,11 @@
 import { Router } from 'express'
 
 import {
-  createAssignment,
+  createAssignments,
   deleteAssignment,
-  listAssignments,
-  getAssignmentById,
+  getAssignments,
+  getAssignment,
+  updateAssignment,
 } from '../controllers/AssignmentController'
 
 class AssignmentRouter {
@@ -16,10 +17,11 @@ class AssignmentRouter {
   }
 
   private init(): void {
-    this.router.get('/assignments', listAssignments)
-    this.router.get('/assignments/:id', getAssignmentById)
-    this.router.post('/assignments', createAssignment)
+    this.router.get('/assignments', getAssignments)
+    this.router.get('/assignments/:id', getAssignment)
+    this.router.post('/assignments', createAssignments)
     this.router.delete('/assignments/:id', deleteAssignment)
+    this.router.put('/assignments', updateAssignment)
   }
 }
 
