@@ -1,22 +1,5 @@
 import ReviewStatus from '../models/ReviewStatus'
 
-const mapHomeworkItem = ({_id, name, job_role}) => {
-  return {
-    id: _id,
-    candidate: name,
-    job_role,
-  }
-}
-
-const mapInterviewerItem = ({_id, name, role, employee_id}) => {
-  return {
-    id: _id,
-    name,
-    role,
-    employee_id,
-  }
-}
-
 export const mapAssignmentItem = (homework, interviewer, assignment) => {
   const status = assignment.is_finished ?
     ReviewStatus.finished :
@@ -24,11 +7,14 @@ export const mapAssignmentItem = (homework, interviewer, assignment) => {
 
   return {
     id: assignment._id,
-    homework: mapHomeworkItem(homework),
-    interviewer: mapInterviewerItem(interviewer),
+    candidate: homework.name,
+    job_role: homework.job_role,
+    interviewer_employee_id: interviewer.employee_id,
+    interviewer_name: interviewer.name,
     assigned_date: assignment.assigned_date,
     deadline_date: assignment.deadline_date,
     finished_date: assignment.finished_date,
+    is_finished: assignment.is_finished,
     status,
   }
 }

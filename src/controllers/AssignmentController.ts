@@ -42,7 +42,7 @@ export const createAssignment = async (req, res) => {
     await assignment.save()
   })
 
-  res.json({message: 'create Successful'})
+  res.status(201).json({message: 'create Successful'})
 }
 
 export const deleteAssignment = async (req, res) => {
