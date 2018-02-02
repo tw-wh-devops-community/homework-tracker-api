@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose'
-import { RoleType } from '../helpers/Constant'
+import RoleType from '../models/RoleType'
 
 const storePicBathUrl = 'fakeStorePicBathUrl'
 
@@ -29,7 +29,7 @@ const interviewerSchema = new mongoose.Schema({
 })
 
 interviewerSchema.methods.getPicUrl = function(): string {
-  return `${storePicBathUrl}${this.employee_id}`;
-};
+  return `${storePicBathUrl}${this.employee_id}`
+}
 
 export const Interviewer = mongoose.model<InterviewerModel>('Interviewer', interviewerSchema)

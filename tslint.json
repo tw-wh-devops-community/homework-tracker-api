@@ -9,14 +9,17 @@
         "max-line-length": {
             "options": [120]
         },
+        "interface-name": [true, "never-prefix"],
         "new-parens": true,
         "no-arg": true,
         "no-eval": true,
         "no-unused-expression": true,
         "no-unused-variable": true,
         "no-use-before-declare": true,
+        "no-duplicate-imports": true,
+        "no-require-imports": true,
         "quotemark": [true, "single"],
-        "semicolon": false,
+        "semicolon": [true, "never"],
         "use-strict": false,
         "ordered-imports": false,
         "object-literal-key-quotes": false,
