@@ -11,10 +11,19 @@ const getAssignmentItem = async (assignment) => {
 }
 
 export const getAssignments = async (req, res) => {
-  const assignments: AssignmentModel[] = await Assignment
-    .find({})
-    .sort({'is_finished': 1, 'deadline_date': 1, 'assigned_date': 1})
+  const finishedAssignments: AssignmentModel[] = await Assignment
+    .find({is_finished: true})
+    .sort({'assigned_date': 1})
     .exec()
+  const ongoingAssignments: AssignmentModel[] = await Assignment
+    .find({is_finished: false, deadline_date: {$gte: new Date()}})
+    .sort({'assigned_date': 1})
+    .exec()
+  const overdueAssignments: AssignmentModel[] = await Assignment
+    .find({is_finished: false, deadline_date: {$lt: new Date()}})
+    .sort({'assigned_date': 1})
+    .exec()
+  const assignments = overdueAssignments.concat(ongoingAssignments).concat(finishedAssignments)
   const resultList: AssignmentDTO[] = await Promise.all(assignments.map(getAssignmentItem))
 
   res.json(resultList)
