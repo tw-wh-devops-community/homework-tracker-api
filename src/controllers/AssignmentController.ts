@@ -63,9 +63,23 @@ export const deleteAssignment = async (req, res) => {
 
 export const updateAssignment = async (req, res) => {
   const data = req.body
-  const assignment = {
-    finished_date: new Date(data.finished_date),
-    is_finished: data.is_finished,
+  const assignment = {}
+
+  if (data.finished_date) {
+    assignment.finished_date = new Date(data.finished_date)
+    assignment.is_finished = data.is_finished
+  }
+
+  if (data.assigned_date) {
+    assignment.assigned_date = new Date(data.assigned_date)
+  }
+
+  if (data.deadline_date) {
+    assignment.deadline_date = new Date(data.deadline_date)
+  }
+  if (data.interviewer_employee_id) {
+    const interviewer = await Interviewer.findOne({'employee_id': data.interviewer_employee_id})
+    assignment.interviewer_id = interviewer
   }
   await Assignment.findByIdAndUpdate(data.id, assignment)
   res.sendStatus(204)
