@@ -63,7 +63,7 @@ export const deleteAssignment = async (req, res) => {
 
 export const updateAssignment = async (req, res) => {
   const data = req.body
-  const assignment = {}
+  const assignment: any = {}
 
   if (data.finished_date) {
     assignment.finished_date = new Date(data.finished_date)
