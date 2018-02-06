@@ -4,7 +4,9 @@ import { mapInterviewers } from '../dto-mapper/InterviewerMapper'
 
 export const getInterviewers = async (req, res) => {
   try {
-    const interviewers: InterviewerModel[] = await Interviewer.find({}).exec()
+    const interviewers: InterviewerModel[] = await Interviewer
+      .find({})
+      .sort({pinyin_name: 1}).exec()
     const interviewersJson: InterviewerDTO[] = mapInterviewers(interviewers)
     res.json(interviewersJson)
   } catch (error) {
