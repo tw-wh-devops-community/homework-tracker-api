@@ -32,18 +32,28 @@ export const getBulletins = async (req, res) => {
   }
 
   const resultsSortByInterviewer = await Assignment
-    .aggregate({
-      $match: matchRules[req.query.type],
-    }).group(
+    .aggregate([
       {
-        '_id': {
-          interviewer_id: '$interviewer_id',
-        },
-        'deadline_dates': {
-          $push: '$deadline_date',
-        },
+        $match: matchRules[req.query.type],
       },
-    )
+      {
+        $group:
+          {
+            '_id': {
+              interviewer_id: '$interviewer_id',
+            },
+            'deadline_dates': {
+              $push: '$deadline_date',
+            },
+            'time_priority': {
+              $min: '$deadline_date',
+            },
+          },
+      },
+      {
+        $sort: { time_priority: 1 },
+      },
+    ])
     .exec()
 
   const resultList = await Promise.all(resultsSortByInterviewer.map(getBulletinItem))
