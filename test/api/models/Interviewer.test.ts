@@ -12,7 +12,7 @@ describe('interviewer model test', () => {
   it('should get the saved interviewer info', async () => {
     const interviewer = new Interviewer({name: 'foo',  employee_id: 'bar', role:RoleType.BA})
     const savedInterviewer = await interviewer.save()
-    const picBathUrl ='fakeStorePicBathUrl'
+    const picBathUrl ='image/'
 
     const latestInterviewer = await Interviewer.findById(savedInterviewer.id)
 

@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose'
 import * as pinyin from 'pinyin'
 import RoleType from '../models/RoleType'
 
-const storePicBathUrl = 'fakeStorePicBathUrl'
+const storePicBathUrl = 'image/'
 
 const getPinyin = (name) => {
   return pinyin(name).join()
