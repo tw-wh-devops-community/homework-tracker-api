@@ -11,29 +11,41 @@ const getBulletinItem = async (item) => {
 export const getBulletins = async (req, res) => {
   const today = moment()
   const tomorrow = moment().add(1, 'day')
-  let resultsSortByInterviewer
 
-  if (req.query.type === 'intraday') {
-    resultsSortByInterviewer = await Assignment
-      .aggregate({
-        $match: {
-          $and: [
-            {deadline_date: {$lte: tomorrow.toDate()}},
-            {deadline_date: {$gt: today.toDate()}},
-          ],
-        },
-      }).group(
-        {
-          '_id': {
-            interviewer_id: '$interviewer_id',
-          },
-          'deadline_dates': {
-            $push: '$deadline_date',
-          },
-        },
-      )
-      .exec()
+  const matchRules = {
+    intraday: {
+      $and: [
+        {deadline_date: {$lte: tomorrow.toDate()}},
+        {deadline_date: {$gt: today.toDate()}},
+      ],
+    },
+    overdue: {
+      $and: [
+        {deadline_date: {$lte: today.toDate()}},
+      ],
+    },
+    ongoing: {
+      $and: [
+        {deadline_date: {$gt: today.toDate()}},
+      ],
+    },
   }
+
+  const resultsSortByInterviewer = await Assignment
+    .aggregate({
+      $match: matchRules[req.query.type],
+    }).group(
+      {
+        '_id': {
+          interviewer_id: '$interviewer_id',
+        },
+        'deadline_dates': {
+          $push: '$deadline_date',
+        },
+      },
+    )
+    .exec()
+
   const resultList = await Promise.all(resultsSortByInterviewer.map(getBulletinItem))
   res.json(resultList)
 }
