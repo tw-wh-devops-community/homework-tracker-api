@@ -8,7 +8,7 @@ export const mapBulletin = (interviewer: InterviewerModel, item): BulletinDTO =>
     interviewer_name: interviewer.name,
     interviewer_profile: interviewer.getPicUrl(),
     interviewer_role: interviewer.role,
-    timeArray: item.deadline_dates.map((a) => moment(a).diff(moment(), 'hour')),
+    time_records: item.deadline_dates.map((a) => moment(a).diff(moment(), 'hour')),
   }
   return result  as BulletinDTO
 }

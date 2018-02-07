@@ -3,5 +3,5 @@ export interface BulletinDTO {
   interviewer_name: string,
   interviewer_profile: string,
   interviewer_role: string,
-  timeArray: number[],
+  time_records: number[],
 }
