@@ -1,7 +1,7 @@
-import {Assignment} from '../models/Assignment'
-import {Interviewer} from '../models/Interviewer'
+import { Assignment } from '../models/Assignment'
+import { Interviewer } from '../models/Interviewer'
 import * as moment from 'moment'
-import {mapBulletin} from '../dto-mapper/BulletinMapper'
+import { mapBulletin } from '../dto-mapper/BulletinMapper'
 
 const getBulletinItem = async (item) => {
   const interviewer = await Interviewer.findOne({_id: item._id.interviewer_id})

@@ -11,6 +11,7 @@ import AssignmentRouter from './routes/AssignmentRouter'
 import ImageRouter from './routes/ImageRouter'
 import InterviewerRouter from './routes/InterviewerRouter'
 import RoleRouter from './routes/RoleRouter'
+import HonorRollRouter from './routes/HonorRollRouter'
 import ENV from './constants/Env'
 import { LOG_DIRECTORY, LOG_FILE } from './constants/LogConfig'
 
@@ -65,6 +66,7 @@ class App {
     this.app.use('/api', InterviewerRouter)
     this.app.use('/api', RoleRouter)
     this.app.use('/api', BulletinRouter)
+    this.app.use('/api', HonorRollRouter)
 
     this.app.use((err: any, req: Request, res, next) => {
       res.status(err.status || 500).json(err).send()
