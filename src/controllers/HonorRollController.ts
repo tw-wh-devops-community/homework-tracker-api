@@ -16,8 +16,8 @@ export const getHonorRolls = async (req, res) => {
     month = lastMonthDay.month() + 1
   }
   const sortRules = {
-    speed: { avg_duration: 1 },
-    quantity: { count: -1 },
+    speed: { avg_duration: 1, count: -1 },
+    quantity: { count: -1, avg_duration: 1 },
   }
   const startDay  = moment(`${year}-${month}-01`)
   const day = moment(`${year}-${month}`, 'YYYY-MM').daysInMonth()
