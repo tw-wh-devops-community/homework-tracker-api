@@ -1,6 +1,8 @@
 import * as mongoose from 'mongoose'
 import * as pinyin from 'pinyin'
 import RoleType from '../models/RoleType'
+import * as fs from 'fs'
+import { getUploadPath } from '../constants/UploadPath'
 
 const storePicBathUrl = 'image/'
 
@@ -43,7 +45,13 @@ interviewerSchema.pre('save', function(next) {
 })
 
 interviewerSchema.methods.getPicUrl = function(): string {
-  return `${storePicBathUrl}${this.employee_id}`
+  const imagePath = getUploadPath() + this.employee_id + '.png'
+  if (fs.existsSync(imagePath)) {
+    return `${storePicBathUrl}${this.employee_id}`
+  } else {
+    return null
+  }
+
 }
 
 export const Interviewer = mongoose.model<InterviewerModel>('Interviewer', interviewerSchema)

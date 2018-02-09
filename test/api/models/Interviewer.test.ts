@@ -10,7 +10,7 @@ describe('interviewer model test', () => {
   })
 
   it('should get the saved interviewer info', async () => {
-    const interviewer = new Interviewer({name: 'foo',  employee_id: 'bar', role:RoleType.BA})
+    const interviewer = new Interviewer({name: 'foo',  employee_id: '15111', role:RoleType.BA})
     const savedInterviewer = await interviewer.save()
     const picBathUrl ='image/'
 
@@ -18,6 +18,6 @@ describe('interviewer model test', () => {
 
     expect(latestInterviewer.name).to.eql('foo')
     expect(latestInterviewer.role).to.eql(RoleType.BA)
-    expect(latestInterviewer.getPicUrl()).to.eql(`${picBathUrl}bar`)
+    expect(latestInterviewer.getPicUrl()).to.eql(`${picBathUrl}15111`)
   })
 })

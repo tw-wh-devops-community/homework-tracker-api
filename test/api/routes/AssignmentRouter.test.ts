@@ -85,7 +85,7 @@ describe('assignment api',()=>{
       expect(res.body.job_role).to.eql('DEV')
       expect(res.body.interviewer_name).to.eql('interviewer2')
       expect(res.body.interviewer_employee_id).to.eql('321')
-      expect(res.body.interviewer_profile).to.eql('image/321')
+      expect(res.body.interviewer_profile).to.eql(null)
       expect(res.body.is_finished).to.eql(false)
       expect(res.body.status).to.eql('overdue')
     })
