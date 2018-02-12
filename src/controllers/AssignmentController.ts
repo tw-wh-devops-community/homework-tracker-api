@@ -2,16 +2,28 @@ import { Assignment, AssignmentModel } from '../models/Assignment'
 import { Interviewer } from '../models/Interviewer'
 import { Homework } from '../models/Homework'
 import { AssignmentDTO } from '../dto/Assignment'
-import { mapAssignmentItem } from '../helpers/AssignmentModel2DTOMapper'
+import { mapAssignment } from '../dto-mapper/AssignmentMapper'
 
 const getAssignmentItem = async (assignment) => {
   const homework = await Homework.findOne({_id: assignment.homework_id})
   const interviewer = await Interviewer.findOne({_id: assignment.interviewer_id})
-  return mapAssignmentItem(homework, interviewer, assignment)
+  return mapAssignment(homework, interviewer, assignment)
 }
 
 export const getAssignments = async (req, res) => {
-  const assignments: AssignmentModel[] = await Assignment.find({}).exec()
+  const finishedAssignments: AssignmentModel[] = await Assignment
+    .find({is_finished: true})
+    .sort({'assigned_date': 1})
+    .exec()
+  const ongoingAssignments: AssignmentModel[] = await Assignment
+    .find({is_finished: false, deadline_date: {$gte: new Date()}})
+    .sort({'assigned_date': 1})
+    .exec()
+  const overdueAssignments: AssignmentModel[] = await Assignment
+    .find({is_finished: false, deadline_date: {$lt: new Date()}})
+    .sort({'assigned_date': 1})
+    .exec()
+  const assignments = overdueAssignments.concat(ongoingAssignments).concat(finishedAssignments)
   const resultList: AssignmentDTO[] = await Promise.all(assignments.map(getAssignmentItem))
 
   res.json(resultList)
@@ -29,6 +41,10 @@ export const createAssignments = async (req, res) => {
   const homework = new Homework({name: data.candidateName, job_role: data.jobRole})
   const savedHomework = await homework.save()
   const interviewers = await Interviewer.find({'employee_id': {$in: data.interviewerIds}})
+
+  if (interviewers.length === 0) {
+    res.status(400).json({message: 'bad request, please check the homework interviewers'})
+  }
 
   interviewers.forEach(async (interviewer) => {
     const assignment = new Assignment({
@@ -56,9 +72,23 @@ export const deleteAssignment = async (req, res) => {
 
 export const updateAssignment = async (req, res) => {
   const data = req.body
-  const assignment = {
-    finished_date: new Date(data.finished_date),
-    is_finished: data.is_finished,
+  const assignment: any = {}
+
+  if (data.finished_date) {
+    assignment.finished_date = new Date(data.finished_date)
+    assignment.is_finished = data.is_finished
+  }
+
+  if (data.assigned_date) {
+    assignment.assigned_date = new Date(data.assigned_date)
+  }
+
+  if (data.deadline_date) {
+    assignment.deadline_date = new Date(data.deadline_date)
+  }
+  if (data.interviewer_employee_id) {
+    const interviewer = await Interviewer.findOne({'employee_id': data.interviewer_employee_id})
+    assignment.interviewer_id = interviewer
   }
   await Assignment.findByIdAndUpdate(data.id, assignment)
   res.sendStatus(204)

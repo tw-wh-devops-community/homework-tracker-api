@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import chaiHttp = require('chai-http')
+import * as chaiHttp from 'chai-http'
 import { Interviewer } from '../../../src/models/Interviewer'
 import RoleType from '../../../src/models/RoleType'
 import { resetDB } from '../../db-test-setup'
@@ -85,6 +85,7 @@ describe('assignment api',()=>{
       expect(res.body.job_role).to.eql('DEV')
       expect(res.body.interviewer_name).to.eql('interviewer2')
       expect(res.body.interviewer_employee_id).to.eql('321')
+      expect(res.body.interviewer_profile).to.eql(null)
       expect(res.body.is_finished).to.eql(false)
       expect(res.body.status).to.eql('overdue')
     })
@@ -109,6 +110,27 @@ describe('assignment api',()=>{
 
       expect(res.body.is_finished).to.eql(true)
       expect(res.body.status).to.eql('finished')
+    })
+
+    it('should not create assignment when provide data with wrong interviewer employee id', async () => {
+      const payload1 = {
+        interviewerIds: [1234],
+        candidateName: 'candidateNameSecond',
+        jobRole: 'DEV',
+        assignedDate: '2011-01-01',
+        deadlineDate: '2011-02-12',
+      }
+      chai.request(app)
+        .post('/api/assignments')
+        .send(payload1)
+        .then(() => {}, res => {
+          expect(res.status).to.eql(400)
+          expect(res.body).to.eql({message: 'bad request, please check the homework interviewers'})
+
+          const getAllAssignmentsRequest = await
+          chai.request(app).get('/api/assignments')
+          expect(getAllAssignmentsRequest.res.body.length).to.eql(1)
+        })
     })
 
     it('should create one assignment when provide enough data with one interviewer', async () => {
