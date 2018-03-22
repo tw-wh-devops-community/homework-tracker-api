@@ -15,17 +15,20 @@ export const getBulletins = async (req, res) => {
   const matchRules = {
     intraday: {
       $and: [
+        {is_finished: false},
         {deadline_date: {$lte: tomorrow.toDate()}},
         {deadline_date: {$gt: today.toDate()}},
       ],
     },
     overdue: {
       $and: [
+        {is_finished: false},
         {deadline_date: {$lte: today.toDate()}},
       ],
     },
     ongoing: {
       $and: [
+        {is_finished: false},
         {deadline_date: {$gt: today.toDate()}},
       ],
     },
