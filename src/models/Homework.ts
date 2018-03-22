@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose'
-import { RoleType } from '../helpers/Constant'
+import RoleType from '../models/RoleType'
 
 export type HomeworkModel = mongoose.Document & {
   name: string,
@@ -16,4 +16,4 @@ const homeworkSchema = new mongoose.Schema({
   },
 })
 
-export default mongoose.model<HomeworkModel>('Homework', homeworkSchema)
+export const Homework = mongoose.model<HomeworkModel>('Homework', homeworkSchema)

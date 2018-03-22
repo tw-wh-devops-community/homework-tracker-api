@@ -6,8 +6,14 @@ import * as fs from 'fs'
 import * as rfs from 'rotating-file-stream'
 import dbHelper from './helpers/DBHelper'
 import envHelper from './helpers/EnvHelper'
-import HomeworkRouter from './routes/HomeworkRouter'
+import BulletinRouter from './routes/BulletinRouter'
+import AssignmentRouter from './routes/AssignmentRouter'
 import ImageRouter from './routes/ImageRouter'
+import InterviewerRouter from './routes/InterviewerRouter'
+import RoleRouter from './routes/RoleRouter'
+import HonorRollRouter from './routes/HonorRollRouter'
+import ENV from './constants/Env'
+import { LOG_DIRECTORY, LOG_FILE } from './constants/LogConfig'
 
 class App {
   public app: express.Application
@@ -24,7 +30,7 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(bodyParser.json())
     this.app.use(cors())
-    if (envHelper.getNodeEnv() !== 'PROD') {
+    if (envHelper.getNodeEnv() !== ENV.PROD) {
       this.app.use(morgan('combined'))
     } else {
       const accessLogStream = this.getRFSAccessLogStream()
@@ -33,13 +39,13 @@ class App {
   }
 
   private getRFSAccessLogStream(): any {
-    const logDirectory = '/homework-logs/'
+    const logDirectory = LOG_DIRECTORY
 
     if (!fs.existsSync(logDirectory)) {
       fs.mkdirSync(logDirectory)
     }
 
-    const accessLogStream = rfs('access.log', {
+    const accessLogStream = rfs(LOG_FILE, {
       size:     '10M',
       interval: '10d',
       compress: 'gzip',
@@ -55,8 +61,16 @@ class App {
       res.json({ message: 'Hello World!' })
     })
     this.app.use('/', router)
-    this.app.use('/api', HomeworkRouter)
     this.app.use('/image', ImageRouter)
+    this.app.use('/api', AssignmentRouter)
+    this.app.use('/api', InterviewerRouter)
+    this.app.use('/api', RoleRouter)
+    this.app.use('/api', BulletinRouter)
+    this.app.use('/api', HonorRollRouter)
+
+    this.app.use((err: any, req: Request, res, next) => {
+      res.status(err.status || 500).json(err).send()
+    })
   }
 
   private handleError(): void {
