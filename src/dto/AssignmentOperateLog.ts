@@ -3,5 +3,5 @@ export interface AssignmentOperateLogDTO {
     assignment_id: string,
     operate_action: number,
     operate_context: string,
-    operate_time:Date
-  }
+    operate_time: Date,
+}

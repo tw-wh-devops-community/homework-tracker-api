@@ -3,9 +3,9 @@ import { AssignmentOperateAction } from './AssignmentOperateAction'
 
 export type AssignmentOperateLogModel = mongoose.Document & {
   assignment_id: any,
-  operate_action:AssignmentOperateAction,
-  operate_context:string,
-  operate_time:Date
+  operate_action: AssignmentOperateAction,
+  operate_context: string,
+  operate_time: Date,
 }
 
 const assignmentOperateLogSchema = new mongoose.Schema({
@@ -13,15 +13,15 @@ const assignmentOperateLogSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Assignment',
   },
-  operate_action : {
-    type:Number
+  operate_action: {
+    type: Number,
   },
-  operate_context : {
-    type:String
+  operate_context: {
+    type: String,
   },
-  operate_time : {
-    type:Date
-  }
+  operate_time: {
+    type: Date,
+  },
 })
 
 export const AssignmentOperateLog =
