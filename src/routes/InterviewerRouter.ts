@@ -21,7 +21,7 @@ class InterviewerRouter {
 
   private init(): void {
     this.router.get('/interviewers', getInterviewers)
-    this.router.post('/interviewers', createInterviewers)
+    this.router.post('/interviewers', this.withErrorHandler(createInterviewers))
   }
 }
 
