@@ -24,12 +24,40 @@ describe('interviewer Route', () => {
       expect(getAllAssignmentsRequest.res.body.length).to.eql(0)
     })
 
-    it('should get all assignment with data after create', async () => {
+    it('should get all interviewer with data after create', async () => {
       const createInterviewerRequest = await chai.request(app).post('/api/interviewers').send(interviewer)
-      // const getAllAssignmentsRequest = await chai.request(app).get('/api/interviewers')
+      const getAllAssignmentsRequest = await chai.request(app).get('/api/interviewers')
 
       expect(createInterviewerRequest.res.body).to.eql({ message: 'create Successful' })
-      // expect(getAllAssignmentsRequest.res.body.length).to.eql(1)
+      expect(getAllAssignmentsRequest.res.body.length).to.eql(1)
+    })
+
+    it('should create interviewer repeat by employee id', async () => {
+      const interviewerModel =
+        new Interviewer({ name: interviewer.name, role: interviewer.jobRole, employee_id: interviewer.employeeId })
+      await interviewerModel.save()
+
+      chai.request(app)
+        .post('/api/interviewers')
+        .send(interviewer)
+        .then(() => { }, res => {
+          expect(res.status).to.eql(400)
+          expect(res.body).to.eql({ message: 'repeat employee id' })
+        })
+    })
+
+    it('should create interviewer repeat by name and role', async () => {
+      const interviewerModel =
+        new Interviewer({ name: interviewer.name, role: interviewer.jobRole, employee_id: 100000 })
+      await interviewerModel.save()
+
+      chai.request(app)
+        .post('/api/interviewers')
+        .send(interviewer)
+        .then(() => { }, res => {
+          expect(res.status).to.eql(400)
+          expect(res.body).to.eql({ message: 'repeat name and role' })
+        })
     })
   })
 })
