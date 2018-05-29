@@ -3,6 +3,8 @@ import { Interviewer } from '../models/Interviewer'
 import { Homework } from '../models/Homework'
 import { AssignmentDTO } from '../dto/Assignment'
 import { mapAssignment } from '../dto-mapper/AssignmentMapper'
+import { AssignmentOperateLog,AssignmentOperateLogModel} from '../models/AssignmentOperateLog'
+import { AssignmentOperateAction } from '../models/AssignmentOperateAction'
 
 const getAssignmentItem = async (assignment) => {
   const homework = await Homework.findOne({_id: assignment.homework_id})
@@ -55,7 +57,14 @@ export const createAssignments = async (req, res) => {
       interviewer_id: interviewer,
       homework_id: savedHomework,
     })
-    await assignment.save()
+    const saveAssignment = await assignment.save()
+    const assignmentOperateLog = new AssignmentOperateLog({
+      assignment_id : saveAssignment,
+      operate_action : AssignmentOperateAction.ADD,
+      operate_context : '新增作业记录',
+      operate_time : new Date(data.assignedDate)
+    });
+    await assignmentOperateLog.save()
   })
 
   res.status(201).json({message: 'create Successful'})
@@ -73,23 +82,57 @@ export const deleteAssignment = async (req, res) => {
 export const updateAssignment = async (req, res) => {
   const data = req.body
   const assignment: any = {}
+  let isUpdateAssignedDate = false
+  let isUpdateDeadLineDate = false
+  let isUpdateInterviewer = false
+  let isUpdateFinished = false;
 
-  if (data.finished_date) {
+  if (data.finished_date) { //完成了任务
     assignment.finished_date = new Date(data.finished_date)
     assignment.is_finished = data.is_finished
+    isUpdateFinished = true
   }
 
-  if (data.assigned_date) {
+  if (data.assigned_date) { //修改了分配时间
     assignment.assigned_date = new Date(data.assigned_date)
+    isUpdateAssignedDate = true
   }
 
-  if (data.deadline_date) {
+  if (data.deadline_date) { //修改了截止时间
     assignment.deadline_date = new Date(data.deadline_date)
+    isUpdateDeadLineDate = true
   }
-  if (data.interviewer_employee_id) {
-    const interviewer = await Interviewer.findOne({'employee_id': data.interviewer_employee_id})
-    assignment.interviewer_id = interviewer
+  try{
+    let interviewer
+    if (data.interviewer_employee_id) {
+      interviewer = await Interviewer.findOne({'employee_id': data.interviewer_employee_id})
+      assignment.interviewer_id = interviewer
+      isUpdateInterviewer = true
+    }
+    const oldAssignment = await Assignment.findByIdAndUpdate(data.id, assignment)
+    let operate_context = ""
+    if(isUpdateAssignedDate){
+      operate_context += `修改分配时间“${oldAssignment.assigned_date.toLocaleString()}”为“${new Date(data.assigned_date).toLocaleString()}” `
+    }
+    if(isUpdateDeadLineDate){
+      operate_context += `修改截止时间“${oldAssignment.deadline_date.toLocaleString()}”为“${new Date(data.deadline_date).toLocaleString()}” `
+    }
+    if(isUpdateInterviewer){
+      let oldInterviewer = await Interviewer.findById(oldAssignment.interviewer_id)
+      operate_context += `修改面试官“${oldInterviewer.name}”为“${interviewer.name}” `
+    }
+    if(isUpdateFinished){
+      operate_context += `修改状态为“完成”`
+    }
+    const assignmentOperateLog = new AssignmentOperateLog({
+      assignment_id : oldAssignment,
+      operate_action : AssignmentOperateAction.UPDATE,
+      operate_context : operate_context,
+      operate_time : new Date()
+    });
+    await assignmentOperateLog.save()
+    res.sendStatus(204)
+  }catch(err){
+    console.log(err)
   }
-  await Assignment.findByIdAndUpdate(data.id, assignment)
-  res.sendStatus(204)
 }
