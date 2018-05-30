@@ -15,11 +15,10 @@ after(async () => {
   await closeConnection()
 })
 
-const closeConnection = async() => {
+const closeConnection = async () => {
   await mongoose.disconnect()
 }
 
 export const resetDB = async () => {
   await mockGooseInstance.mongooseObj.connection.dropDatabase()
 }
-
