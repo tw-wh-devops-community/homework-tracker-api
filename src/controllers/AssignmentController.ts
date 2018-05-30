@@ -112,18 +112,21 @@ export const updateAssignment = async (req, res) => {
   let operateContext = ''
   if (isUpdateAssignedDate) {
     operateContext +=
-      `修改分配时间“${oldAssignment.assigned_date.toLocaleString()}”为“${new Date(data.assigned_date).toLocaleString()}” `
+      `修改分配时间“${oldAssignment.assigned_date.toLocaleString()}”为“${new Date(data.assigned_date).toLocaleString()}”|`
   }
   if (isUpdateDeadLineDate) {
     operateContext +=
-      `修改截止时间“${oldAssignment.deadline_date.toLocaleString()}”为“${new Date(data.deadline_date).toLocaleString()}” `
+      `修改截止时间“${oldAssignment.deadline_date.toLocaleString()}”为“${new Date(data.deadline_date).toLocaleString()}”|`
   }
   if (isUpdateInterviewer) {
     const oldInterviewer = await Interviewer.findById(oldAssignment.interviewer_id)
-    operateContext += `修改面试官“${oldInterviewer.name}”为“${interviewer.name}” `
+    operateContext += `修改面试官“${oldInterviewer.name}”为“${interviewer.name}”|`
   }
   if (isUpdateFinished) {
     operateContext += `修改状态为“完成”`
+  }
+  if (operateContext.endsWith('|')) {
+    operateContext = operateContext.substring(0, operateContext.length - 1)
   }
   const assignmentOperateLog = new AssignmentOperateLog({
     assignment_id: oldAssignment,

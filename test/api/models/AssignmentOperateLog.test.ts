@@ -22,7 +22,7 @@ describe('AssignmentOperateLog model test', () => {
       assigned_date: new Date(),
       deadline_date: new Date(),
       finished_date: null,
-      is_finished: false
+      is_finished: false,
     })
     assignment.interviewer_id = savedInterviewer
     assignment.homework_id = savedHomework
@@ -35,7 +35,7 @@ describe('AssignmentOperateLog model test', () => {
       assignment_id : assignmentId,
       operate_action : AssignmentOperateAction.ADD,
       operate_context : operateContext,
-      operate_time : date
+      operate_time : date,
     })
     const savedAssignmentOperateLog = await assignmentOperateLog.save();
     const latestAssignmentOperateLog = await AssignmentOperateLog.findById(savedAssignmentOperateLog.id)
