@@ -14,20 +14,33 @@ export const getInterviewers = async (req, res) => {
   }
 }
 
+export const getInterviewersByName = async (req, res) => {
+  try {
+    const searchName = req.params.name
+    const interviewers: InterviewerModel[] = await Interviewer
+  .find({ name: new RegExp(searchName) })
+      .sort({ pinyin_name: 1 }).exec()
+    const interviewersJson: InterviewerDTO[] = mapInterviewers(interviewers)
+    res.json(interviewersJson)
+  } catch (error) {
+    res.status(400).json({ error })
+  }
+}
+
 export const createInterviewers = async (req, res) => {
   const data = req.body
 
   const employee = await Interviewer.findOne({ 'employee_id': data.employeeId })
 
   if (employee != null) {
-    res.status(400).json({ message: 'repeat employee id' })
+    res.status(400).json({ message: '员工编号重复' })
     return
   }
 
   const interviewerModel = await Interviewer.findOne({ 'name': data.name, 'role': data.jobRole })
 
   if (interviewerModel != null) {
-    res.status(400).json({ message: 'repeat name and role' })
+    res.status(400).json({ message: '姓名与角色重复' })
     return
   }
 

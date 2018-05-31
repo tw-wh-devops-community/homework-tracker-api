@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express'
-import { getInterviewers, createInterviewers } from '../controllers/InterviewerController'
+import { getInterviewers, createInterviewers, getInterviewersByName } from '../controllers/InterviewerController'
 
 class InterviewerRouter {
   public router: Router
@@ -21,6 +21,7 @@ class InterviewerRouter {
 
   private init(): void {
     this.router.get('/interviewers', getInterviewers)
+    this.router.get('/interviewers/:name', getInterviewersByName)
     this.router.post('/interviewers', this.withErrorHandler(createInterviewers))
   }
 }
