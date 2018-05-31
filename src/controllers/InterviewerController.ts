@@ -21,12 +21,14 @@ export const createInterviewers = async (req, res) => {
 
   if (employee != null) {
     res.status(400).json({ message: 'repeat employee id' })
+    return
   }
 
   const interviewerModel = await Interviewer.findOne({ 'name': data.name, 'role': data.jobRole })
 
   if (interviewerModel != null) {
     res.status(400).json({ message: 'repeat name and role' })
+    return
   }
 
   const interviewer = new Interviewer({ name: data.name, role: data.jobRole, employee_id: data.employeeId })
