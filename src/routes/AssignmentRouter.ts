@@ -6,6 +6,7 @@ import {
   getAssignment,
   updateAssignment,
 } from '../controllers/AssignmentController'
+import { getAssignmentOperateLogs } from '../controllers/AssignmentOperateLogController'
 
 class AssignmentRouter {
   public router: Router
@@ -28,6 +29,7 @@ class AssignmentRouter {
   private init(): void {
     this.router.get('/assignments', this.withErrorHandler(getAssignments))
     this.router.get('/assignments/:id', this.withErrorHandler(getAssignment))
+    this.router.get('/assignments/:id/assignmentOperateLogs', this.withErrorHandler(getAssignmentOperateLogs))
     this.router.post('/assignments', this.withErrorHandler(createAssignments))
     this.router.delete('/assignments/:id', this.withErrorHandler(deleteAssignment))
     this.router.put('/assignments', this.withErrorHandler(updateAssignment))
