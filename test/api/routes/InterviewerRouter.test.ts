@@ -42,7 +42,7 @@ describe('interviewer Route', () => {
         .send(interviewer)
         .then(() => { }, res => {
           expect(res.status).to.eql(400)
-          expect(res.body).to.eql({ message: 'repeat employee id' })
+          expect(res.body).to.eql({ message: '员工编号重复' })
         })
     })
 
@@ -56,7 +56,7 @@ describe('interviewer Route', () => {
         .send(interviewer)
         .then(() => { }, res => {
           expect(res.status).to.eql(400)
-          expect(res.body).to.eql({ message: 'repeat name and role' })
+          expect(res.body).to.eql({ message: '姓名与角色重复' })
         })
     })
   })
