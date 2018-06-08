@@ -9,6 +9,7 @@
         "max-line-length": {
             "options": [120]
         },
+        "no-console": false,
         "interface-name": [true, "never-prefix"],
         "new-parens": true,
         "no-arg": true,

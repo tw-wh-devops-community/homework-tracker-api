@@ -15,6 +15,9 @@ import HonorRollRouter from './routes/HonorRollRouter'
 import ENV from './constants/Env'
 import { LOG_DIRECTORY, LOG_FILE } from './constants/LogConfig'
 
+// 小程序的Router
+import OpenIdRouter from './routes/OpenIdRouter'
+
 class App {
   public app: express.Application
 
@@ -67,6 +70,8 @@ class App {
     this.app.use('/api', RoleRouter)
     this.app.use('/api', BulletinRouter)
     this.app.use('/api', HonorRollRouter)
+    // 小程序的交易
+    this.app.use('/pweb', OpenIdRouter)
 
     this.app.use((err: any, req: Request, res, next) => {
       res.status(err.status || 500).json(err).send()

@@ -6,10 +6,12 @@ class RoleRouter {
 
   constructor() {
     this.router = Router()
+    console.info('role router execute.')
     this.init()
   }
 
   private init(): void {
+    console.info('role router init.')
     this.router.get('/roles', getRoles)
   }
 }
