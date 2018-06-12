@@ -1,7 +1,10 @@
 import { InterviewerModel, Interviewer } from '../models/Interviewer'
 import { InterviewerDTO } from '../dto/Interviewer'
 import { mapInterviewers } from '../dto-mapper/InterviewerMapper'
+import {message} from 'gulp-typescript/release/utils'
+import * as pinyin from 'pinyin'
 
+const getPinyin = (name) => pinyin(name).join()
 export const getInterviewers = async (req, res) => {
   try {
     const interviewers: InterviewerModel[] = await Interviewer
@@ -48,3 +51,38 @@ export const createInterviewers = async (req, res) => {
   await interviewer.save()
   res.status(201).json({ message: 'create Successful' })
 }
+
+export const updateInterviewers = async (req, res) => {
+  const data = req.body
+  const employee = await Interviewer.findOne( {'_id': data.id})
+  const id = data.id
+
+  if (employee == null) {
+    res.status(400).json({message: 'not existed employee id'})
+    return
+  }
+
+  const interviewerByEmployeeId = await Interviewer.findOne({'employee_id': data.employeeId, '_id': {$ne: id}})
+  if (interviewerByEmployeeId != null) {
+    res.status(400).json({message: 'chosen id is already existed!'})
+    return
+  }
+
+  const employeeByNameAndRole = await Interviewer.
+    findOne({'name': data.name, 'role': data.jobRole, '_id': {$ne: id}})
+  if (employeeByNameAndRole != null) {
+    res.status(400)
+        .json({message: 'The combination of chosen name and role is already existed!'})
+    return
+  }
+
+  const query = {'_id': data.id}
+  const updateInterviewer = {
+    'name': data.name,
+    'employee_id': data.employeeId,
+    'role': data.jobRole,
+    'pinyin_name': getPinyin(data.name)}
+  await Interviewer.findOneAndUpdate(query, updateInterviewer)
+
+  res.status(200).json({message: 'update successful' })
+ }
