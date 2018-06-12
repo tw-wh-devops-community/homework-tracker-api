@@ -1,5 +1,10 @@
 import { Router, Request, Response, NextFunction } from 'express'
-import { getInterviewers, createInterviewers, getInterviewersByName, updateInterviewers} from '../controllers/InterviewerController'
+import {
+  getInterviewers,
+  createInterviewers,
+  getInterviewersByName,
+  updateInterviewers,
+} from '../controllers/InterviewerController'
 
 class InterviewerRouter {
   public router: Router
