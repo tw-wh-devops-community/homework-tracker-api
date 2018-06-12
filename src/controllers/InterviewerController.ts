@@ -1,7 +1,6 @@
 import { InterviewerModel, Interviewer } from '../models/Interviewer'
 import { InterviewerDTO } from '../dto/Interviewer'
 import { mapInterviewers } from '../dto-mapper/InterviewerMapper'
-import {message} from 'gulp-typescript/release/utils'
 import * as pinyin from 'pinyin'
 
 const getPinyin = (name) => pinyin(name).join()
