@@ -1,3 +1,3 @@
-export const appid = 'wx8371fce1f158d372'
+export const appid = 'wxf74aad374b9996fc'
 
-export const secret = '9961f1e5d3c0fc10ffbe04e2921683ca'
+export const secret = '753bd79b52b2ac77af944381cc534d49'

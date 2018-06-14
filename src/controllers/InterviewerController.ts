@@ -2,6 +2,7 @@ import { InterviewerModel, Interviewer } from '../models/Interviewer'
 import { InterviewerDTO } from '../dto/Interviewer'
 import { mapInterviewers } from '../dto-mapper/InterviewerMapper'
 import * as pinyin from 'pinyin'
+import {OpenId, OpenIdModel} from '../models/OpenId'
 
 const getPinyin = (name) => pinyin(name).join()
 export const getInterviewers = async (req, res) => {
@@ -85,3 +86,15 @@ export const updateInterviewers = async (req, res) => {
 
   res.status(200).json({message: 'update successful' })
  }
+
+export const getUnbindInterviewers = async (res, req) => {
+
+  const binds: OpenIdModel[] = await OpenId.find().exec()
+  const bindInterviewerIds = binds.map((item) => {
+      return item.interviewer_id
+  })
+
+  const unBindedInterviewers: InterviewerModel[] = await Interviewer.find({'_id': {$nin: bindInterviewerIds}}).exec()
+
+  req.status(200).json(unBindedInterviewers)
+}
