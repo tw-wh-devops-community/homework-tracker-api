@@ -39,7 +39,7 @@ const getAssignmentItemForSinglerInterviewer = async (assignment) => {
   const homework = await Homework.findOne( {_id: assignment.homework_id})
   const fullAssignmentInfo = {
         'candidate_name': homework.name,
-        'assign_date': assignment.assign_date,
+        'assigned_date': assignment.assigned_date,
         'deadline_date': assignment.deadline_date,
     }
   return fullAssignmentInfo

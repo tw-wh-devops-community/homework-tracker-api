@@ -89,12 +89,23 @@ export const updateInterviewers = async (req, res) => {
 
 export const getUnbindInterviewers = async (res, req) => {
 
+  const interviewerName = res.query.name
   const binds: OpenIdModel[] = await OpenId.find().exec()
   const bindInterviewerIds = binds.map((item) => {
-      return item.interviewer_id
-  })
+        return item.interviewer_id
+    })
+  if (interviewerName == null) {
 
-  const unBindedInterviewers: InterviewerModel[] = await Interviewer.find({'_id': {$nin: bindInterviewerIds}}).exec()
+      const unBindedInterviewers: InterviewerModel[] =
+          await Interviewer.find({'_id': {$nin: bindInterviewerIds}}).exec()
+
+      req.status(200).json(unBindedInterviewers)
+      return
+  }
+
+  const unBindedInterviewers: InterviewerModel[] =
+      await Interviewer.find({ '_id': {$nin: bindInterviewerIds}, 'name': new RegExp(interviewerName)})
 
   req.status(200).json(unBindedInterviewers)
+  return
 }
