@@ -1,6 +1,6 @@
 import { InterviewerModel, Interviewer } from '../models/Interviewer'
-import { InterviewerDTO } from '../dto/Interviewer'
-import { mapInterviewers } from '../dto-mapper/InterviewerMapper'
+import { InterviewopenidDTO } from '../dto/InterviewopenidDTO'
+import { mapInterviewersopenid } from '../dto-mapper/InterviewerMapper'
 import * as pinyin from 'pinyin'
 import {OpenId, OpenIdModel} from '../models/OpenId'
 
@@ -10,7 +10,14 @@ export const getInterviewers = async (req, res) => {
     const interviewers: InterviewerModel[] = await Interviewer
       .find({})
       .sort({ pinyin_name: 1 }).exec()
-    const interviewersJson: InterviewerDTO[] = mapInterviewers(interviewers)
+    const interviewersJson: InterviewopenidDTO[] = mapInterviewersopenid(interviewers)
+    for(let i = 0; i < interviewersJson.length; i++) {
+      const openIdModel: OpenIdModel = await OpenId.findOne({'interviewer_id': interviewersJson[i].id}).exec()
+      if(openIdModel && openIdModel.open_id) {
+        interviewersJson[i].openId = openIdModel.open_id
+        console.log(interviewersJson)
+      }
+    }
     res.json(interviewersJson)
   } catch (error) {
     res.status(400).json({ error })
@@ -23,7 +30,14 @@ export const getInterviewersByName = async (req, res) => {
     const interviewers: InterviewerModel[] = await Interviewer
   .find({ name: new RegExp(searchName) })
       .sort({ pinyin_name: 1 }).exec()
-    const interviewersJson: InterviewerDTO[] = mapInterviewers(interviewers)
+    const interviewersJson: InterviewopenidDTO[] = mapInterviewersopenid(interviewers)
+    for(let i = 0; i < interviewersJson.length; i++) {
+      const openIdModel: OpenIdModel = await OpenId.findOne({'interviewer_id': interviewersJson[i].id}).exec()
+      if(openIdModel && openIdModel.open_id) {
+        interviewersJson[i].openId = openIdModel.open_id
+        console.log(interviewersJson)
+      }
+    }
     res.json(interviewersJson)
   } catch (error) {
     res.status(400).json({ error })
