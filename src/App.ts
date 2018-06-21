@@ -12,6 +12,7 @@ import ImageRouter from './routes/ImageRouter'
 import InterviewerRouter from './routes/InterviewerRouter'
 import RoleRouter from './routes/RoleRouter'
 import HonorRollRouter from './routes/HonorRollRouter'
+import SecretCodeRouter from './routes/SecretCodeRouter'
 import ENV from './constants/Env'
 import { LOG_DIRECTORY, LOG_FILE } from './constants/LogConfig'
 
@@ -70,6 +71,7 @@ class App {
     this.app.use('/api', RoleRouter)
     this.app.use('/api', BulletinRouter)
     this.app.use('/api', HonorRollRouter)
+    this.app.use('/api', SecretCodeRouter)
     // 小程序的交易
     this.app.use('/pweb', OpenIdRouter)
 
