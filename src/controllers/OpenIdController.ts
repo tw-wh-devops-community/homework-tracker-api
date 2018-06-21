@@ -98,6 +98,12 @@ export const addBind = async (req, res) => {
         return
     }
 
+    const existOpenIdModel: OpenIdModel = await OpenId.findOne({'open_id': openId}).exec()
+    if (existOpenIdModel !== null) {
+        res.status(400).json({'message': 'OpenId is already existing!'})
+        return
+    }
+
     const openIdModel = new OpenId(
         {
             open_id: openId,
@@ -112,13 +118,19 @@ export const removeBind = async (req, res) => {
     const openId = req.body.openId
     const interviewerId = req.body.interviewerId
 
-    await OpenId.remove(
-        {'interviewer_id': interviewerId, 'open_id': openId}, (err) => {
-        if (err == null) {
-            res.status(200).json({message: 'unbind successfully!'})
+    console.log('openid:' + openId)
+    await OpenId.findOneAndRemove(
+        {'interviewer_id': interviewerId, 'open_id': openId}, (err, story) => {
+        if (err != null) {
+            res.status(500).send(err)
             return
-        } else {
-            res.status(400).json({message: 'failed to unbind!'})
         }
+
+        if (story == null) {
+            res.status(400).json({'message': 'There is no document for the chosen openId!'})
+            return
+        }
+
+        res.status(200).json({'message': 'Unbind successfully!'})
     })
 }
