@@ -29,6 +29,7 @@ appid=${wechart.appid}&secret=${wechart.secret}&js_code=${jsCode}&grant_type=aut
             'openId': openIdModel.open_id,
             'interviewerId': openIdModel.interviewer_id._id,
             'interviewerName': openIdModel.interviewer_id.name,
+            '_id': openIdModel._id,
         }
         res.status(200).json(result)
       }
@@ -109,25 +110,27 @@ export const addBind = async (req, res) => {
             open_id: openId,
             interviewer_id: interviewerId,
         })
-    await openIdModel.save()
-    res.status(201).json({message: 'insert successfully'})
+    const savedOpenIdModel = await openIdModel.save()
+    const result = {
+        '_id': savedOpenIdModel._id,
+        'open_id': openId,
+        'interviewer_id': interviewerId,
+    }
+    res.status(201).json(result)
 }
 
 export const removeBind = async (req, res) => {
 
-    const openId = req.body.openId
-    const interviewerId = req.body.interviewerId
-
-    console.log('openid:' + openId)
+    const id = req.params.id
     await OpenId.findOneAndRemove(
-        {'interviewer_id': interviewerId, 'open_id': openId}, (err, story) => {
+        {'_id': id}, (err, story) => {
         if (err != null) {
             res.status(500).send(err)
             return
         }
 
         if (story == null) {
-            res.status(400).json({'message': 'There is no document for the chosen openId!'})
+            res.status(400).json({'message': 'There is no document for the chosen id!'})
             return
         }
 
