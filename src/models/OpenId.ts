@@ -1,9 +1,8 @@
 import * as mongoose from 'mongoose'
-import RoleType from './RoleType'
 
 export type OpenIdModel = mongoose.Document & {
     open_id: string,
-    interviewer_id: RoleType,
+    interviewer_id: any,
 }
 
 const openIdSchema = new mongoose.Schema({
@@ -13,6 +12,7 @@ const openIdSchema = new mongoose.Schema({
     },
     interviewer_id: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'Interviewer',
     },
 })
 

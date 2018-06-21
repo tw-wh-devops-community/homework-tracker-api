@@ -117,9 +117,9 @@ export const getUnbindInterviewers = async (res, req) => {
       return
   }
 
-  const unBindedInterviewers: InterviewerModel[] =
+  const interviewers: InterviewerModel[] =
       await Interviewer.find({ '_id': {$nin: bindInterviewerIds}, 'name': new RegExp(interviewerName)})
 
-  req.status(200).json(unBindedInterviewers)
+  req.status(200).json(interviewers)
   return
 }

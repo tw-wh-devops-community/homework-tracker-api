@@ -4,6 +4,7 @@ import {OpenId, OpenIdModel} from '../models/OpenId'
 import {Homework} from '../models/Homework'
 import {Assignment, AssignmentModel} from '../models/Assignment'
 import {Interviewer, InterviewerModel} from '../models/Interviewer'
+import {SecretCode, SecretCodeModel} from '../models/SecretCode'
 
 // 发送交易得到用户的openId
 export const getOpenId = async (req, res) => {
@@ -14,20 +15,20 @@ appid=${wechart.appid}&secret=${wechart.secret}&js_code=${jsCode}&grant_type=aut
 
   await request(requestUrl, async (error, response, body) => {
     if (!error && response.statusCode === 200) {
-      console.log('body：' + body) // Show the HTML for the baidu homepage.
-      // const openIdBindInfo = queryOpenIdBind(body.openid)
+
       const bodyJson = JSON.parse(body)
-      const openIdModel: OpenIdModel = await OpenId.findOne({'open_id': bodyJson.openid}).exec()
+      const openIdModel: OpenIdModel =
+          await OpenId.findOne({'open_id': bodyJson.openid}).populate('interviewer_id').exec()
 
       if (openIdModel == null) {
         res.status(200).json({openId: bodyJson.openid})
         return
       } else {
-        const interviewer: InterviewerModel = await Interviewer.findOne({'_id': openIdModel.interviewer_id}).exec()
+        console.log('interviewer_id:' + openIdModel.interviewer_id.name)
         const result = {
             'openId': openIdModel.open_id,
-            'interviewerId': openIdModel.interviewer_id,
-            'interviewerName': interviewer.name,
+            'interviewerId': openIdModel.interviewer_id._id,
+            'interviewerName': openIdModel.interviewer_id.name,
         }
         res.status(200).json(result)
       }
@@ -35,7 +36,7 @@ appid=${wechart.appid}&secret=${wechart.secret}&js_code=${jsCode}&grant_type=aut
   })
 }
 
-const getAssignmentItemForSinglerInterviewer = async (assignment) => {
+const getAssignmentItemForSingleInterviewer = async (assignment) => {
   const homework = await Homework.findOne( {_id: assignment.homework_id})
   const fullAssignmentInfo = {
         'candidate_name': homework.name,
@@ -50,14 +51,13 @@ const getUnfinishedHomeWorks = async (interviewerId) => {
   const unfinished: AssignmentModel[] = await Assignment
       .find({'interviewer_id': interviewerId, 'is_finished': false})
 
-  const result = Promise.all(unfinished.map(getAssignmentItemForSinglerInterviewer))
+  const result = Promise.all(unfinished.map(getAssignmentItemForSingleInterviewer))
   return result
 }
 
 const getTotalFinishedHomeWorksInCurrentYear = async (interviewerId) => {
 
   const currentYear = new Date().getFullYear()
-  console.log('year:' + currentYear)
   const finishedHomeWorks = await Assignment
     .find({'interviewer_id': interviewerId, 'is_finished': true, 'assigned_date': {$gte: new Date(currentYear, 1, 1)}})
       // .find({'interviewer_id': interviewerId, 'is_finished': true})
@@ -69,11 +69,11 @@ const getTotalFinishedHomeWorksInCurrentYear = async (interviewerId) => {
 export const getHomeworkInfoForWeChat = async (req, res) => {
 
   const interviewerId = req.params.interviewerId
-  const numberOfFinshed = await getTotalFinishedHomeWorksInCurrentYear(interviewerId)
+  const numberOfFinished = await getTotalFinishedHomeWorksInCurrentYear(interviewerId)
   const unFinished = await getUnfinishedHomeWorks(interviewerId)
 
   const result = {
-        'numberOfFinished': numberOfFinshed,
+        'numberOfFinished': numberOfFinished,
         'unfinished': unFinished,
     }
 
@@ -84,6 +84,25 @@ export const addBind = async (req, res) => {
 
     const openId = req.body.openId
     const interviewerId = req.body.interviewerId
+    const code = req.body.code.toUpperCase()
+
+    const secretCode: SecretCodeModel = await SecretCode.findOne({'name': 'secret_code'}).exec()
+    if (code !== secretCode.code) {
+        res.status(400).json({message: 'Secret code is wrong!'})
+        return
+    }
+
+    const interviewer: InterviewerModel = await Interviewer.findOne({'_id': interviewerId}).exec()
+    if (interviewer == null) {
+        res.status(400).json({'message': 'InterviewerId is not existing!'})
+        return
+    }
+
+    const existOpenIdModel: OpenIdModel = await OpenId.findOne({'open_id': openId}).exec()
+    if (existOpenIdModel !== null) {
+        res.status(400).json({'message': 'OpenId is already existing!'})
+        return
+    }
 
     const openIdModel = new OpenId(
         {
@@ -99,13 +118,19 @@ export const removeBind = async (req, res) => {
     const openId = req.body.openId
     const interviewerId = req.body.interviewerId
 
-    await OpenId.remove(
-        {'interviewer_id': interviewerId, 'open_id': openId}, (err) => {
-        if (err == null) {
-            res.status(200).json({message: 'unbind successfully!'})
+    console.log('openid:' + openId)
+    await OpenId.findOneAndRemove(
+        {'interviewer_id': interviewerId, 'open_id': openId}, (err, story) => {
+        if (err != null) {
+            res.status(500).send(err)
             return
-        } else {
-            res.status(400).json({message: 'failed to unbind!'})
         }
+
+        if (story == null) {
+            res.status(400).json({'message': 'There is no document for the chosen openId!'})
+            return
+        }
+
+        res.status(200).json({'message': 'Unbind successfully!'})
     })
 }
