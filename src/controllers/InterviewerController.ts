@@ -8,9 +8,7 @@ const getPinyin = (name) => pinyin(name).join()
 
 const getInterviewerItem = async (interviewer) => {
   const openIdModel: OpenIdModel = await OpenId.findOne({ 'interviewer_id': interviewer._id }).exec()
-  if (openIdModel != null) {
-    console.log('openIdModel:' + openIdModel.open_id)
-  }
+  
   return mapInterviewer(interviewer, openIdModel)
 
 }
