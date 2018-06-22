@@ -1,5 +1,4 @@
 import * as _ from 'lodash'
-import {OpenId, OpenIdModel} from '../models/OpenId'
 
 const getDTOFromModelWithOpenId = (obj, properties) => {
   if (!_.isObject(obj)) {
