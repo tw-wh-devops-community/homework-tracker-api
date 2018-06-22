@@ -116,7 +116,7 @@ export const addBind = async (req, res) => {
         'open_id': openId,
         'interviewer_id': interviewerId,
     }
-    res.status(201).json(result)
+    res.status(200).json(result)
 }
 
 export const removeBind = async (req, res) => {
