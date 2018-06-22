@@ -8,7 +8,6 @@ const getPinyin = (name) => pinyin(name).join()
 
 const getInterviewerItem = async (interviewer) => {
   const openIdModel: OpenIdModel = await OpenId.findOne({ 'interviewer_id': interviewer._id }).exec()
-  
   return mapInterviewer(interviewer, openIdModel)
 
 }
@@ -89,7 +88,7 @@ export const updateInterviewers = async (req, res) => {
     'name': data.name,
     'employee_id': data.employeeId,
     'role': data.jobRole,
-    'pinyin_name': getPinyin(data.name)
+    'pinyin_name': getPinyin(data.name),
   }
   await Interviewer.findOneAndUpdate(query, updateInterviewer)
 
