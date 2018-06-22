@@ -1,18 +1,21 @@
-import { InterviewerModel } from '../models/Interviewer'
+import * as _ from 'lodash'
 import { InterviewerDTO } from '../dto/Interviewer'
 import getDTOFromModel from '../helpers/DTOMapperHelper'
 import getDTOFromModelWithOpenId from '../helpers/DTOMapperOpenIdHelper'
 import { InterviewopenidDTO } from '../dto/InterviewopenidDTO'
 
-export const mapInterviewer = (interviewer) => getDTOFromModel(interviewer, ['name', 'role', 'employee_id'])
+export const mapInterviewer = (interviewer, openIdModel) => {
+  const model = getDTOFromModel(interviewer, ['name', 'role', 'employee_id'])
+  console.log('before')
+  if (openIdModel == null) {
+    return model as InterviewerDTO
+  }
 
-export const mapInterviewers = (interviewers): InterviewerDTO[] => (
-  interviewers.map((interviewer: InterviewerModel) => mapInterviewer(interviewer))
-)
+  console.log('after')
+  const openIdProperties = {
+    'open_id': openIdModel.open_id,
+    '_openids_id': openIdModel._id,
+  }
 
-export const mapInterviewersopenid = (interviewers): InterviewopenidDTO[] => (
-  interviewers.map((interviewer: InterviewerModel) => mapInterviewerOpenId(interviewer))
-)
-
-export const mapInterviewerOpenId = (interviewer) => getDTOFromModelWithOpenId(interviewer,
-   ['name', 'role', 'employee_id'])
+  return _.merge(model, openIdProperties) as InterviewerDTO
+}

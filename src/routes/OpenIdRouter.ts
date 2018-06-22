@@ -24,7 +24,7 @@ class OpenIdRouter {
     this.router.get('/openId?', this.withErrorHandler(getOpenId))
     this.router.get('/assignment/:interviewerId', this.withErrorHandler(getHomeworkInfoForWeChat))
     this.router.post('/openId', this.withErrorHandler(addBind))
-    this.router.delete('/openId', this.withErrorHandler(removeBind))
+    this.router.delete('/openId/:id', this.withErrorHandler(removeBind))
     this.router.get('/interviewer/unbind', this.withErrorHandler(getUnbindInterviewers))
   }
 }
