@@ -37,6 +37,20 @@ appid=${wechart.appid}&secret=${wechart.secret}&js_code=${jsCode}&grant_type=aut
   })
 }
 
+export const queryOpenIdBind = async (req, res) => {
+  const openId = req.query.openId
+  const openIdModel: OpenIdModel =
+          await OpenId.findOne({'open_id': openId}).populate('interviewer_id').exec()
+
+    if (openIdModel == null) {
+        res.status(200).json({bind: false})
+        return
+    } else {
+        res.status(200).json({bind: true})
+    }
+}
+  
+
 const getAssignmentItemForSingleInterviewer = async (assignment) => {
   const homework = await Homework.findOne( {_id: assignment.homework_id})
   const fullAssignmentInfo = {
@@ -87,21 +101,26 @@ export const addBind = async (req, res) => {
     const interviewerId = req.body.interviewerId
     const code = req.body.code.toUpperCase()
 
+    if (!interviewerId) {
+        res.status(400).json({message: '面试官不存在!'})
+        return
+    }
+
     const secretCode: SecretCodeModel = await SecretCode.findOne({'name': 'secret_code'}).exec()
     if (code !== secretCode.code) {
-        res.status(400).json({message: 'Secret code is wrong!'})
+        res.status(400).json({message: '暗号不正确!'})
         return
     }
 
     const interviewer: InterviewerModel = await Interviewer.findOne({'_id': interviewerId}).exec()
     if (interviewer == null) {
-        res.status(400).json({'message': 'InterviewerId is not existing!'})
+        res.status(400).json({'message': '面试官不存在!'})
         return
     }
 
     const existOpenIdModel: OpenIdModel = await OpenId.findOne({'open_id': openId}).exec()
     if (existOpenIdModel !== null) {
-        res.status(400).json({'message': 'OpenId is already existing!'})
+        res.status(400).json({'message': 'OpenId已存在!'})
         return
     }
 
@@ -134,6 +153,6 @@ export const removeBind = async (req, res) => {
             return
         }
 
-        res.status(200).json({'message': 'Unbind successfully!'})
+        res.status(200).json({'message': '解绑成功!'})
     })
 }

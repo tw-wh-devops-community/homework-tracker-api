@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express'
-import {getOpenId, getHomeworkInfoForWeChat, addBind, removeBind} from '../controllers/OpenIdController'
+import {getOpenId, getHomeworkInfoForWeChat, addBind, removeBind, queryOpenIdBind} from '../controllers/OpenIdController'
 import {getUnbindInterviewers} from '../controllers/InterviewerController'
 
 class OpenIdRouter {
@@ -22,6 +22,7 @@ class OpenIdRouter {
 
   private init(): void {
     this.router.get('/openId?', this.withErrorHandler(getOpenId))
+    this.router.get('/queryOpenIdBind', this.withErrorHandler(queryOpenIdBind))
     this.router.get('/assignment/:interviewerId', this.withErrorHandler(getHomeworkInfoForWeChat))
     this.router.post('/openId', this.withErrorHandler(addBind))
     this.router.delete('/openId/:id', this.withErrorHandler(removeBind))
