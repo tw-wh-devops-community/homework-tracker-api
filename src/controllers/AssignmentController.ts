@@ -34,7 +34,6 @@ export const getAssignments = async (req, res) => {
 export const getAssignment = async (req, res) => {
   const assignment: AssignmentModel = await Assignment.findById(req.params.id).exec()
   const result: AssignmentDTO = await getAssignmentItem(assignment)
-
   res.json(result)
 }
 
