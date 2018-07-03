@@ -102,7 +102,7 @@ export const addBind = async (req, res) => {
     const openId = req.body.openId
     const interviewerId = req.body.interviewerId
     const code = req.body.code.toUpperCase()
-    const nickName = req.body.nickName;
+    const nickName = req.body.nickName
 
     if (!interviewerId) {
         res.status(400).json({message: '面试官不存在!'})
@@ -111,6 +111,7 @@ export const addBind = async (req, res) => {
 
     if (!nickName) {
         res.status(400).json({message: '昵称不存在!'})
+        return
     }
 
     const secretCode: SecretCodeModel = await SecretCode.findOne({'name': 'secret_code'}).exec()
