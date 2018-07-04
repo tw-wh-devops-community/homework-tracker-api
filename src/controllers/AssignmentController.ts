@@ -5,7 +5,7 @@ import { AssignmentDTO } from '../dto/Assignment'
 import { mapAssignment } from '../dto-mapper/AssignmentMapper'
 import { AssignmentOperateLog, AssignmentOperateLogModel } from '../models/AssignmentOperateLog'
 import { AssignmentOperateAction } from '../models/AssignmentOperateAction'
-import {sendNotify} from '../services/NotifyService'
+import { sendNotify } from '../services/NotifyService'
 import NotifyTemplates from '../services/NotifyTemplates'
 
 const getAssignmentItem = async (assignment) => {
@@ -104,15 +104,14 @@ export const deleteAssignment = async (req, res) => {
 
 const sendUpdateInterviewerNotify = async (oldAssignment, homework, interviewer) => {
   const oldInterviewer = await Interviewer.findOne({ _id: oldAssignment.interviewer_id })
-  const oldSendNotify = NotifyServices.sendUpdateInterviewerNotify
   const oldInterviewerTemplate = {
     interviewer: oldInterviewer.name,
     candidateName: homework.name,
     interviewer2: interviewer.name
   }
   const oldInterviewerMessage = NotifyTemplates.getUpdateInterviewerTemplate(oldInterviewerTemplate)
-  console.log('oldInterviewerMessage', oldInterviewerMessage);
-  const sendNotify = NotifyServices.sendNewHomeworkNotify
+  sendNotify(oldInterviewer.getMarkName(), oldInterviewerMessage, '1')
+
   const interviewerTemplate = {
     interviewer: interviewer.name,
     candidateName: homework.name,
@@ -121,24 +120,22 @@ const sendUpdateInterviewerNotify = async (oldAssignment, homework, interviewer)
     deadlineDate: oldAssignment.deadline_date.toLocaleString()
   }
   const message = NotifyTemplates.getNewHomeworkTemplate(interviewerTemplate)
-  console.log('message', message)
+  sendNotify(interviewer.getMarkName(), message, '1')
 }
 
 const sendUpdateDeadlineNotify = async (oldAssignment, homework, data) => {
   const oldInterviewer = await Interviewer.findOne({ _id: oldAssignment.interviewer_id })
-  const sendNotify = NotifyServices.sendUpdateDeadlineNotify
   const templateData = {
     interviewer: oldInterviewer.name,
     candidateName: homework.name,
     deadlineDate: data.deadline_date
   }
   const message = NotifyTemplates.getUpdateDeadlineTemplate(templateData)
-  console.log('message', message)
+  sendNotify(oldInterviewer.getMarkName(), message, '1')
 }
 
 const sendCompleteHomeworkNotify = async (oldAssignment, homework, data) => {
   const oldInterviewer = await Interviewer.findOne({ _id: oldAssignment.interviewer_id })
-  const sendNotify = NotifyServices.sendCompleteHomeworkNotify
   const templateData = {
     interviewer: oldInterviewer.name,
     candidateName: homework.name,
@@ -147,7 +144,7 @@ const sendCompleteHomeworkNotify = async (oldAssignment, homework, data) => {
     deadlineDate: oldAssignment.deadline_date.toLocaleString()
   }
   const message = NotifyTemplates.getCompleteHomeworkTemplate(templateData)
-  console.log('message', message);
+  sendNotify(oldInterviewer.getMarkName(), message, '1')
 }
 
 export const updateAssignment = async (req, res) => {
@@ -207,6 +204,7 @@ export const updateAssignment = async (req, res) => {
   })
   await assignmentOperateLog.save()
 
+  // 通知
   let homework = await Homework.findOne({ _id: oldAssignment.homework_id })
   if (isUpdateFinished) {
     sendCompleteHomeworkNotify(oldAssignment, homework, data)
