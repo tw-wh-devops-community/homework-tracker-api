@@ -5,7 +5,7 @@ import { AssignmentDTO } from '../dto/Assignment'
 import { mapAssignment } from '../dto-mapper/AssignmentMapper'
 import { AssignmentOperateLog, AssignmentOperateLogModel } from '../models/AssignmentOperateLog'
 import { AssignmentOperateAction } from '../models/AssignmentOperateAction'
-import NotifyServices from '../services/NotifyService'
+import {sendNotify} from '../services/NotifyService'
 import NotifyTemplates from '../services/NotifyTemplates'
 
 const getAssignmentItem = async (assignment) => {
@@ -66,14 +66,24 @@ export const createAssignments = async (req, res) => {
       operate_time: new Date(data.assignedDate),
     })
     await assignmentOperateLog.save()
+
+    // Do notify
+    const arg = {
+        interviewer: interviewer.name,
+        candidateName: homework.name,
+        jobRole: homework.job_role,
+        assignedDate: data.assignedDate,
+        deadlineDate: data.deadlineDate,
+    }
+    sendNotify(interviewer.getMarkName(), NotifyTemplates.getNewHomeworkTemplate(arg), '1')
+        .then(() => {
+            console.log(`send new homework notify to ${interviewer.name} success`)
+        })
+        .catch((err) => {
+            console.log(`send new homework notify to ${interviewer.name} failed`, err)
+        })
   })
 
-  // const notifyResult = await NotifyServices.sendNewHomeworkNotify('胡红翔', 'hello world ssssss', '1')
-  // if (notifyResult.code === '0000') {
-  //   res.status(201).json({ message: 'create Successful' })
-  // } else {
-  //   res.sendStatus(500).json({ message: 'send delete notify error' })
-  // }
   res.status(201).json({ message: 'create Successful' })
 }
 
