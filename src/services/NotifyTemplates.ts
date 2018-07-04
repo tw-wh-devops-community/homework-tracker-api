@@ -30,6 +30,12 @@ const DELETE_HOMEWORK_TEMPLATE: string = `作业删除通知
 候选人姓名：{{candidateName}}
 备注：作业已删除，请至小程序查看详情`
 
+const HOMEWORK_LEFT_TIME_NOTIFY: string = `
+作业待完成提醒
+亲爱的面试官{{interviewer}}，还有作业待完成，请抽时间尽快看作业哦~
+作业数量：{{leftNum}}份作业待完成
+{{leftTimeDes}}`
+
 interface TData {
   interviewer: string
   candidateName: string
@@ -86,10 +92,23 @@ const getDeleteHomeworkTemplate = (args: TData): string => {
     .replace(/\{\{candidateName\}\}/g, args.candidateName)
 }
 
+const getHomeworkLeftTimeTemplate = (args): string => {
+    const {interviewer, leftNum, leftTime} = args
+    const leftDes = leftTime < 0
+        ? `已超期时间：已超期${translateToCNDate(-leftTime)}`
+        : `截止时间：仅剩${translateToCNDate(leftTime)}"`
+
+    return HOMEWORK_LEFT_TIME_NOTIFY
+        .replace(/\{\{interviewer\}\}/g, interviewer)
+        .replace(/\{\{leftNum\}\}/g, leftNum)
+        .replace(/\{\{leftTimeDes\}\}/g, leftDes)
+}
+
 export default {
   getNewHomeworkTemplate,
   getCompleteHomeworkTemplate,
   getUpdateDeadlineTemplate,
   getUpdateInterviewerTemplate,
-  getDeleteHomeworkTemplate
+  getDeleteHomeworkTemplate,
+  getHomeworkLeftTimeTemplate,
 }

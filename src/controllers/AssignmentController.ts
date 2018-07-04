@@ -270,12 +270,17 @@ export const notifyUnfinshTask = async () => {
       const interviewer: InterviewerModel = await Interviewer.findById(interviewId).exec()
       const assigns = taksgroup[interviewId]
       const minAssignMent: AssignmentModel = minBy(assigns, (it) => it.deadline_date.getTime())
-      const leftTime = translateToCNDate(fromNow(minAssignMent.deadline_date))
-      const arg = {
+      const args = {
           interviewer: interviewer.name,
-          unfinishedNum: assigns.length,
-          leftTime,
+          leftNum: assigns.length,
+          leftTime: fromNow(minAssignMent.deadline_date),
       }
-      console.log(`notifyUnfinshTask, ${JSON.stringify(arg)}`)
+      sendNotify(interviewer.getMarkName(), NotifyTemplates.getHomeworkLeftTimeTemplate(args), '1')
+            .then(() => {
+                console.log(`sendNotify success`)
+            })
+            .catch((err) => {
+                console.log(`sendNotify failed`)
+            })
     })
 }
