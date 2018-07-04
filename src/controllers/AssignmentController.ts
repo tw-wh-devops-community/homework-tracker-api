@@ -7,6 +7,7 @@ import { AssignmentOperateLog, AssignmentOperateLogModel } from '../models/Assig
 import { AssignmentOperateAction } from '../models/AssignmentOperateAction'
 import {sendNotify} from '../services/NotifyService'
 import NotifyTemplates from '../services/NotifyTemplates'
+import { dateFormat } from '../utlis/dateFormat'
 
 const getAssignmentItem = async (assignment) => {
   const homework = await Homework.findOne({ _id: assignment.homework_id })
@@ -73,8 +74,8 @@ export const createAssignments = async (req, res) => {
         interviewer: interviewer.name,
         candidateName: homework.name,
         jobRole: homework.job_role,
-        assignedDate: data.assignedDate,
-        deadlineDate: data.deadlineDate,
+        assignedDate: dateFormat(data.assignedDate),
+        deadlineDate: dateFormat(data.deadlineDate),
     }
 
     sendNotify(interviewer.getMarkName(), NotifyTemplates.getNewHomeworkTemplate(arg), '1')
