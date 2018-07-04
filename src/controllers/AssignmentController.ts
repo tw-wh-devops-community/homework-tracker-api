@@ -5,6 +5,8 @@ import { AssignmentDTO } from '../dto/Assignment'
 import { mapAssignment } from '../dto-mapper/AssignmentMapper'
 import { AssignmentOperateLog, AssignmentOperateLogModel } from '../models/AssignmentOperateLog'
 import { AssignmentOperateAction } from '../models/AssignmentOperateAction'
+import NotifyServices from '../services/NotifyService'
+import NotifyTemplates from '../services/NotifyTemplates'
 
 const getAssignmentItem = async (assignment) => {
   const homework = await Homework.findOne({ _id: assignment.homework_id })
@@ -67,13 +69,30 @@ export const createAssignments = async (req, res) => {
     await assignmentOperateLog.save()
   })
 
+  const result = await Promise.all(interviewers.map(interviewer => {
+    console.log('interviewer', interviewer);
+    const wxId = `${interviewer.name}${interviewer.employee_id}`
+    return [1, 2, 3]
+  }))
+  console.log(result)
+  // const notifyResult = await NotifyServices.sendNewHomeworkNotify('胡红翔', 'hello world ssssss', '1')
+  // if (notifyResult.code === '0000') {
+  //   res.status(201).json({ message: 'create Successful' })
+  // } else {
+  //   res.sendStatus(500).json({ message: 'send delete notify error' })
+  // }
   res.status(201).json({ message: 'create Successful' })
 }
 
 export const deleteAssignment = async (req, res) => {
   try {
     await Assignment.remove({ _id: req.params.id }).exec()
-    res.json({ message: 'deleted' })
+    const notifyResult = await NotifyServices.sendDeleteHomeworkNotify('胡红翔', 'hello world ssssss', '1')
+    if (notifyResult.code === '0000') {
+      res.json({ message: 'deleted' })
+    } else {
+      res.sendStatus(500).json({ message: 'send delete notify error' })
+    }
   } catch (err) {
     res.status(404).json({ error: err })
   }
@@ -135,5 +154,22 @@ export const updateAssignment = async (req, res) => {
     operate_time: new Date(),
   })
   await assignmentOperateLog.save()
-  res.sendStatus(204)
+
+  let sendNotify
+  if (isUpdateFinished) {
+    sendNotify = NotifyServices.sendCompleteHomeworkNotify
+  }
+  if (isUpdateDeadLineDate) {
+    sendNotify = NotifyServices.sendUpdateDeadlineNotify
+  }
+  if (isUpdateInterviewer) {
+    sendNotify = NotifyServices.sendUpdateInterviewerNotify
+  }
+
+  const notifyResult = await sendNotify('胡红翔', 'hello world ssssss', '1')
+  if (notifyResult.code === '0000') {
+    res.sendStatus(204)
+  } else {
+    res.sendStatus(500).json({ message: 'send notify error' })
+  }
 }
