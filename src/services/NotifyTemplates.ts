@@ -1,3 +1,5 @@
+import { dateFormat, isInTime, duration, fromNow, translateToCNDate } from '../utlis/dateFormat'
+
 const NEW_HOMEWORK_TEMPLATE: string = `新作业提醒
 亲爱的面试官{{interviewer}}，收到一条新作业待批改，具体信息如下：
 候选人姓名：{{candidateName}}
@@ -9,7 +11,7 @@ const COMPLETE_HOMEWORK_TEMPLATE: string = `作业完成啦
 亲爱的面试官{{interviewer}}，感谢您的参与，作业已完成~
 候选人姓名：{{candidateName}}
 作业完成时间：{{completeDate}}
-作业完成时长：{{completeDate}}-{{assignedDate}}
+作业完成时长：{{timeDuration}}
 作业完成情况：{{completeCondition}}`
 
 const UPDATE_INTERVIEWER_TEMPLATE: string = `作业面试官修改
@@ -21,7 +23,7 @@ const UDPATE_DEADLINE_TEMPLATE: string = `作业截止时间变更
 亲爱的面试官{{interviewer}}，作业截止时间已修改，请留意变更!
 候选人姓名：{{candidateName}}
 现作业截止时间：{{deadlineDate}}
-距离作业截止时长：剩余{{hour}}小时{{minute}}分钟`
+距离作业截止时长：剩余{{leftTime}}`
 
 const DELETE_HOMEWORK_TEMPLATE: string = `作业删除通知
 亲爱的面试官{{interviewer}}，您的作业已被删除，请留意变更！
@@ -52,35 +54,36 @@ const getNewHomeworkTemplate = (args: TData): string => {
 const getCompleteHomeworkTemplate = (args: TData): string => {
   const completeInTimeStr = '按时完成作业任务，棒棒哒~'
   const completeOutTimeStr = '超时完成作业任务，继续加油哦~'
-
-  // todo 
-  // 需要判断当前时间和截止时间，看是否超时
-  return NEW_HOMEWORK_TEMPLATE
+  const isIn = isInTime(args!.completeDate, args!.deadlineDate) <= 0
+  let timeDuration: string | number = translateToCNDate(duration(args!.completeDate, args!.assignedDate))
+  return COMPLETE_HOMEWORK_TEMPLATE
     .replace(/\{\{interviewer\}\}/g, args.interviewer)
     .replace(/\{\{candidateName\}\}/g, args.candidateName)
-    .replace(/\{\{completeDate\}\}/g, args!.completeDate)
-    .replace(/\{\{assignedDate\}\}/g, args!.assignedDate)
-    .replace(/\{\{completeCondition\}\}/g, '')
+    .replace(/\{\{completeDate\}\}/g, dateFormat(args!.completeDate))
+    .replace(/\{\{timeDuration\}\}/g, timeDuration)
+    .replace(/\{\{completeCondition\}\}/g, isIn ? completeInTimeStr : completeOutTimeStr)
 }
 
 const getUpdateInterviewerTemplate = (args: TData): string => {
-  return NEW_HOMEWORK_TEMPLATE
+  return UPDATE_INTERVIEWER_TEMPLATE
     .replace(/\{\{interviewer\}\}/g, args.interviewer)
     .replace(/\{\{candidateName\}\}/g, args.candidateName)
     .replace(/\{\{interviewer2\}\}/g, args!.interviewer2)
 }
 
 const getUpdateDeadlineTemplate = (args: TData): string => {
-  return NEW_HOMEWORK_TEMPLATE
+  const leftTime = translateToCNDate(fromNow(args!.deadlineDate))
+  console.log(leftTime)
+
+  return UDPATE_DEADLINE_TEMPLATE
     .replace(/\{\{interviewer\}\}/g, args.interviewer)
     .replace(/\{\{candidateName\}\}/g, args.candidateName)
-    .replace(/\{\{deadlineDate\}\}/g, args!.deadlineDate)
-    .replace(/\{\{hour\}\}/g, '1')
-    .replace(/\{\{minute\}\}/g, '2')
+    .replace(/\{\{deadlineDate\}\}/g, dateFormat(args!.deadlineDate))
+    .replace(/\{\{leftTime\}\}/g, leftTime)
 }
 
 const getDeleteHomeworkTemplate = (args: TData): string => {
-  return NEW_HOMEWORK_TEMPLATE
+  return DELETE_HOMEWORK_TEMPLATE
     .replace(/\{\{interviewer\}\}/g, args.interviewer)
     .replace(/\{\{candidateName\}\}/g, args.candidateName)
 }

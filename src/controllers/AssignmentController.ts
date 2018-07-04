@@ -92,6 +92,54 @@ export const deleteAssignment = async (req, res) => {
   }
 }
 
+const sendUpdateInterviewerNotify = async (oldAssignment, homework, interviewer) => {
+  const oldInterviewer = await Interviewer.findOne({ _id: oldAssignment.interviewer_id })
+  const oldSendNotify = NotifyServices.sendUpdateInterviewerNotify
+  const oldInterviewerTemplate = {
+    interviewer: oldInterviewer.name,
+    candidateName: homework.name,
+    interviewer2: interviewer.name
+  }
+  const oldInterviewerMessage = NotifyTemplates.getUpdateInterviewerTemplate(oldInterviewerTemplate)
+  console.log('oldInterviewerMessage', oldInterviewerMessage);
+  const sendNotify = NotifyServices.sendNewHomeworkNotify
+  const interviewerTemplate = {
+    interviewer: interviewer.name,
+    candidateName: homework.name,
+    jobRole: homework.job_role,
+    assignedDate: oldAssignment.assigned_date.toLocaleString(),
+    deadlineDate: oldAssignment.deadline_date.toLocaleString()
+  }
+  const message = NotifyTemplates.getNewHomeworkTemplate(interviewerTemplate)
+  console.log('message', message)
+}
+
+const sendUpdateDeadlineNotify = async (oldAssignment, homework, data) => {
+  const oldInterviewer = await Interviewer.findOne({ _id: oldAssignment.interviewer_id })
+  const sendNotify = NotifyServices.sendUpdateDeadlineNotify
+  const templateData = {
+    interviewer: oldInterviewer.name,
+    candidateName: homework.name,
+    deadlineDate: data.deadline_date
+  }
+  const message = NotifyTemplates.getUpdateDeadlineTemplate(templateData)
+  console.log('message', message)
+}
+
+const sendCompleteHomeworkNotify = async (oldAssignment, homework, data) => {
+  const oldInterviewer = await Interviewer.findOne({ _id: oldAssignment.interviewer_id })
+  const sendNotify = NotifyServices.sendCompleteHomeworkNotify
+  const templateData = {
+    interviewer: oldInterviewer.name,
+    candidateName: homework.name,
+    completeDate: data.finished_date as string,
+    assignedDate: oldAssignment.assigned_date.toLocaleString(),
+    deadlineDate: oldAssignment.deadline_date.toLocaleString()
+  }
+  const message = NotifyTemplates.getCompleteHomeworkTemplate(templateData)
+  console.log('message', message);
+}
+
 export const updateAssignment = async (req, res) => {
   const data = req.body
   const assignment: any = {}
@@ -149,22 +197,15 @@ export const updateAssignment = async (req, res) => {
   })
   await assignmentOperateLog.save()
 
-  // let sendNotify
-  // if (isUpdateFinished) {
-  //   sendNotify = NotifyServices.sendCompleteHomeworkNotify
-  // }
-  // if (isUpdateDeadLineDate) {
-  //   sendNotify = NotifyServices.sendUpdateDeadlineNotify
-  // }
-  // if (isUpdateInterviewer) {
-  //   sendNotify = NotifyServices.sendUpdateInterviewerNotify
-  // }
-
-  // const notifyResult = await sendNotify('胡红翔', 'hello world ssssss', '1')
-  // if (notifyResult.code === '0000') {
-  //   res.sendStatus(204)
-  // } else {
-  //   res.sendStatus(500).json({ message: 'send notify error' })
-  // }
+  let homework = await Homework.findOne({ _id: oldAssignment.homework_id })
+  if (isUpdateFinished) {
+    sendCompleteHomeworkNotify(oldAssignment, homework, data)
+  }
+  if (isUpdateDeadLineDate) {
+    sendUpdateDeadlineNotify(oldAssignment, homework, data)
+  }
+  if (isUpdateInterviewer) {
+    sendUpdateInterviewerNotify(oldAssignment, homework, interviewer)
+  }
   res.sendStatus(204)
 }
