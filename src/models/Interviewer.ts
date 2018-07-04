@@ -56,7 +56,7 @@ interviewerSchema.methods.getPicUrl = function(): string {
 }
 
 interviewerSchema.methods.getMarkName = function(): string {
-    return `${this.name}_${this.employee_id}`
+    return `${this.name}${this.employee_id}`
 }
 
 export const Interviewer = mongoose.model<InterviewerModel>('Interviewer', interviewerSchema)

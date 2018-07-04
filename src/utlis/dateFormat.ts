@@ -12,7 +12,5 @@ export const translateToCNDate = totalMinutes => {
   const hours = Math.floor(totalMinutes % dayMinutes / hourMinutes)
   const minutes = Math.floor(totalMinutes % dayMinutes % hourMinutes)
 
-
-
   return days === 0 ? hours === 0 ? `${minutes}分钟` : `${hours}小时${minutes}分钟` : `${days}天${hours}小时${minutes}分钟`
 }
