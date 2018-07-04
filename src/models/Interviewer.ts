@@ -16,6 +16,7 @@ export type InterviewerModel = mongoose.Document & {
   role: RoleType,
   employee_id: string,
   getPicUrl(): string,
+  getMarkName(): string,
 }
 
 const interviewerSchema = new mongoose.Schema({
@@ -52,6 +53,10 @@ interviewerSchema.methods.getPicUrl = function(): string {
     return null
   }
 
+}
+
+interviewerSchema.methods.getMarkName = function(): string {
+    return `${this.name}_${this.employee_id}`
 }
 
 export const Interviewer = mongoose.model<InterviewerModel>('Interviewer', interviewerSchema)
