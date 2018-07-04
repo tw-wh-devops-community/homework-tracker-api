@@ -1,4 +1,6 @@
-import * as request from 'request'  
+import * as request from 'request'
+import {notifyUnfinshTask} from '../controllers/AssignmentController';
+const schedule = require('node-schedule');
 
 export const sendNotify = (wxId: string, message: string, isJump: string) => {
   console.log(`sendNotify called, wxId:${wxId}, message:${message}\nisJump:${isJump}`);
@@ -28,6 +30,13 @@ const sendNotifys = (): any => {
   return ['NewHomework', 'CompleteHomework', 'UpdateInterviewer', 'UpdateDeadline', 'DeleteHomework'].reduce((result, key) => {
     return result[`send${key}Notify`] = sendNotify, result
   }, {})
+}
+
+export const startNotifyTask = () => {
+    const time = '0 0 10,20 * * *'
+    schedule.scheduleJob(time, () => {
+      notifyUnfinshTask()
+    })
 }
 
 export default sendNotifys()

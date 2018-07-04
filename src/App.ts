@@ -18,6 +18,7 @@ import { LOG_DIRECTORY, LOG_FILE } from './constants/LogConfig'
 
 // 小程序的Router
 import OpenIdRouter from './routes/OpenIdRouter'
+import {startNotifyTask} from './services/NotifyService';
 
 class App {
   public app: express.Application
@@ -28,6 +29,7 @@ class App {
     this.middleware()
     this.routes()
     this.handleError()
+    startNotifyTask()
   }
 
   private middleware(): void {

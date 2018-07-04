@@ -7,7 +7,8 @@ import { AssignmentOperateLog, AssignmentOperateLogModel } from '../models/Assig
 import { AssignmentOperateAction } from '../models/AssignmentOperateAction'
 import { sendNotify } from '../services/NotifyService'
 import NotifyTemplates from '../services/NotifyTemplates'
-import { dateFormat } from '../utlis/dateFormat'
+import {dateFormat, translateToCNDate, fromNow} from '../utlis/dateFormat'
+import {chain, groupBy, minBy, keys} from 'lodash'
 
 const getAssignmentItem = async (assignment) => {
   const homework = await Homework.findOne({ _id: assignment.homework_id })
@@ -131,6 +132,12 @@ const sendUpdateInterviewerNotify = async (oldAssignment, homework, interviewer)
   }
   const oldInterviewerMessage = NotifyTemplates.getUpdateInterviewerTemplate(oldInterviewerTemplate)
   sendNotify(oldInterviewer.getMarkName(), oldInterviewerMessage, '1')
+      .then(() => {
+          console.log(`notify success`)
+      })
+      .catch((err) => {
+          console.log(`notify failed`, err)
+      })
 
   const interviewerTemplate = {
     interviewer: interviewer.name,
@@ -141,6 +148,12 @@ const sendUpdateInterviewerNotify = async (oldAssignment, homework, interviewer)
   }
   const message = NotifyTemplates.getNewHomeworkTemplate(interviewerTemplate)
   sendNotify(interviewer.getMarkName(), message, '1')
+      .then(() => {
+          console.log(`notify success`)
+      })
+      .catch((err) => {
+          console.log(`notify failed`, err)
+      })
 }
 
 const sendUpdateDeadlineNotify = async (oldAssignment, homework, data) => {
@@ -152,6 +165,12 @@ const sendUpdateDeadlineNotify = async (oldAssignment, homework, data) => {
   }
   const message = NotifyTemplates.getUpdateDeadlineTemplate(templateData)
   sendNotify(oldInterviewer.getMarkName(), message, '1')
+      .then(() => {
+          console.log(`notify success`)
+      })
+      .catch((err) => {
+          console.log(`notify failed`, err)
+      })
 }
 
 const sendCompleteHomeworkNotify = async (oldAssignment, homework, data) => {
@@ -165,6 +184,12 @@ const sendCompleteHomeworkNotify = async (oldAssignment, homework, data) => {
   }
   const message = NotifyTemplates.getCompleteHomeworkTemplate(templateData)
   sendNotify(oldInterviewer.getMarkName(), message, '1')
+      .then(() => {
+          console.log(`notify success`)
+      })
+      .catch((err) => {
+          console.log(`notify failed`, err)
+      })
 }
 
 export const updateAssignment = async (req, res) => {
@@ -236,4 +261,21 @@ export const updateAssignment = async (req, res) => {
     sendUpdateInterviewerNotify(oldAssignment, homework, interviewer)
   }
   res.sendStatus(204)
+}
+
+export const notifyUnfinshTask = async () => {
+    const assignMents: AssignmentModel[] = await Assignment.find({ is_finished: false }).exec()
+    const taksgroup = groupBy(assignMents, (it) => it.interviewer_id)
+    keys(taksgroup).forEach(async (interviewId) => {
+      const interviewer: InterviewerModel = await Interviewer.findById(interviewId).exec()
+      const assigns = taksgroup[interviewId]
+      const minAssignMent: AssignmentModel = minBy(assigns, (it) => it.deadline_date.getTime())
+      const leftTime = translateToCNDate(fromNow(minAssignMent.deadline_date))
+      const arg = {
+          interviewer: interviewer.name,
+          unfinishedNum: assigns.length,
+          leftTime,
+      }
+      console.log(`notifyUnfinshTask, ${JSON.stringify(arg)}`)
+    })
 }
