@@ -68,18 +68,12 @@ export const createAssignments = async (req, res) => {
     await assignmentOperateLog.save()
   })
 
-  const result = await Promise.all(interviewers.map(interviewer => {
-    console.log('interviewer', interviewer);
-    const wxId = `${interviewer.name}${interviewer.employee_id}`
-    return [1, 2, 3]
-  }))
-  console.log(result)
-  // const notifyResult = await NotifyServices.sendNewHomeworkNotify('胡红翔', 'hello world ssssss', '1')
-  // if (notifyResult.code === '0000') {
-  //   res.status(201).json({ message: 'create Successful' })
-  // } else {
-  //   res.sendStatus(500).json({ message: 'send delete notify error' })
-  // }
+  const notifyResult = await NotifyServices.sendNewHomeworkNotify('胡红翔', 'hello world ssssss', '1')
+  if (notifyResult.code === '0000') {
+    res.status(201).json({ message: 'create Successful' })
+  } else {
+    res.sendStatus(500).json({ message: 'send delete notify error' })
+  }
   res.status(201).json({ message: 'create Successful' })
 }
 
