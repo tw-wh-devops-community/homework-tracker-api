@@ -68,23 +68,25 @@ export const createAssignments = async (req, res) => {
     await assignmentOperateLog.save()
   })
 
-  const notifyResult = await NotifyServices.sendNewHomeworkNotify('胡红翔', 'hello world ssssss', '1')
-  if (notifyResult.code === '0000') {
-    res.status(201).json({ message: 'create Successful' })
-  } else {
-    res.sendStatus(500).json({ message: 'send delete notify error' })
-  }
+  // const notifyResult = await NotifyServices.sendNewHomeworkNotify('胡红翔', 'hello world ssssss', '1')
+  // if (notifyResult.code === '0000') {
+  //   res.status(201).json({ message: 'create Successful' })
+  // } else {
+  //   res.sendStatus(500).json({ message: 'send delete notify error' })
+  // }
+  res.status(201).json({ message: 'create Successful' })
 }
 
 export const deleteAssignment = async (req, res) => {
   try {
     await Assignment.remove({ _id: req.params.id }).exec()
-    const notifyResult = await NotifyServices.sendDeleteHomeworkNotify('胡红翔', 'hello world ssssss', '1')
-    if (notifyResult.code === '0000') {
-      res.json({ message: 'deleted' })
-    } else {
-      res.sendStatus(500).json({ message: 'send delete notify error' })
-    }
+    // const notifyResult = await NotifyServices.sendDeleteHomeworkNotify('胡红翔', 'hello world ssssss', '1')
+    // if (notifyResult.code === '0000') {
+    //   res.json({ message: 'deleted' })
+    // } else {
+    //   res.sendStatus(500).json({ message: 'send delete notify error' })
+    // }
+    res.json({ message: 'deleted' })
   } catch (err) {
     res.status(404).json({ error: err })
   }
@@ -147,21 +149,22 @@ export const updateAssignment = async (req, res) => {
   })
   await assignmentOperateLog.save()
 
-  let sendNotify
-  if (isUpdateFinished) {
-    sendNotify = NotifyServices.sendCompleteHomeworkNotify
-  }
-  if (isUpdateDeadLineDate) {
-    sendNotify = NotifyServices.sendUpdateDeadlineNotify
-  }
-  if (isUpdateInterviewer) {
-    sendNotify = NotifyServices.sendUpdateInterviewerNotify
-  }
+  // let sendNotify
+  // if (isUpdateFinished) {
+  //   sendNotify = NotifyServices.sendCompleteHomeworkNotify
+  // }
+  // if (isUpdateDeadLineDate) {
+  //   sendNotify = NotifyServices.sendUpdateDeadlineNotify
+  // }
+  // if (isUpdateInterviewer) {
+  //   sendNotify = NotifyServices.sendUpdateInterviewerNotify
+  // }
 
-  const notifyResult = await sendNotify('胡红翔', 'hello world ssssss', '1')
-  if (notifyResult.code === '0000') {
-    res.sendStatus(204)
-  } else {
-    res.sendStatus(500).json({ message: 'send notify error' })
-  }
+  // const notifyResult = await sendNotify('胡红翔', 'hello world ssssss', '1')
+  // if (notifyResult.code === '0000') {
+  //   res.sendStatus(204)
+  // } else {
+  //   res.sendStatus(500).json({ message: 'send notify error' })
+  // }
+  res.sendStatus(204)
 }
