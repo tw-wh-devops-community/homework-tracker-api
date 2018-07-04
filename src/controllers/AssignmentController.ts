@@ -74,7 +74,6 @@ export const createAssignments = async (req, res) => {
   } else {
     res.sendStatus(500).json({ message: 'send delete notify error' })
   }
-  res.status(201).json({ message: 'create Successful' })
 }
 
 export const deleteAssignment = async (req, res) => {
