@@ -1,6 +1,6 @@
 import * as request from 'request'
-import {notifyUnfinshTask} from '../controllers/AssignmentController';
-const schedule = require('node-schedule');
+import { notifyUnfinshTask } from '../controllers/AssignmentController'
+import * as schedule from 'node-schedule'
 
 export const sendNotify = (wxId: string, message: string, isJump: string) => {
   console.log(`sendNotify called, wxId:${wxId}, message:${message}\nisJump:${isJump}`);
@@ -33,7 +33,7 @@ const sendNotifys = (): any => {
 }
 
 export const startNotifyTask = () => {
-    const time = '0 0 10,20 * * *' // '*/2 * * * * *'
+    const time = '0 0 10,20 * * *'
     schedule.scheduleJob(time, () => {
       notifyUnfinshTask()
     })

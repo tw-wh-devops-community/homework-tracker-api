@@ -1,14 +1,14 @@
 import { Assignment, AssignmentModel } from '../models/Assignment'
-import {Interviewer, InterviewerModel} from '../models/Interviewer'
-import {Homework, HomeworkModel} from '../models/Homework'
+import { Interviewer, InterviewerModel } from '../models/Interviewer'
+import { Homework, HomeworkModel } from '../models/Homework'
 import { AssignmentDTO } from '../dto/Assignment'
 import { mapAssignment } from '../dto-mapper/AssignmentMapper'
 import { AssignmentOperateLog, AssignmentOperateLogModel } from '../models/AssignmentOperateLog'
 import { AssignmentOperateAction } from '../models/AssignmentOperateAction'
 import { sendNotify } from '../services/NotifyService'
 import NotifyTemplates from '../services/NotifyTemplates'
-import {dateFormat, translateToCNDate, fromNow} from '../utlis/dateFormat'
-import {chain, groupBy, minBy, keys} from 'lodash'
+import { dateFormat, fromNow } from '../utlis/dateFormat'
+import {groupBy, minBy, keys } from 'lodash'
 
 const getAssignmentItem = async (assignment) => {
   const homework = await Homework.findOne({ _id: assignment.homework_id })
@@ -79,13 +79,11 @@ export const createAssignments = async (req, res) => {
         deadlineDate: dateFormat(data.deadlineDate),
     }
 
-    sendNotify(interviewer.getMarkName(), NotifyTemplates.getNewHomeworkTemplate(arg), '1')
-        .then(() => {
-            console.log(`send new homework notify to ${interviewer.name} success`)
-        })
-        .catch((err) => {
-            console.log(`send new homework notify to ${interviewer.name} failed`, err)
-        })
+    sendNotify(interviewer.getMarkName(), NotifyTemplates.getNewHomeworkTemplate(arg), '1').then(() => {
+        console.log(`send new homework notify to ${interviewer.name} success`)
+    }).catch((err) => {
+        console.log(`send new homework notify to ${interviewer.name} failed`, err)
+    })
   })
 
   res.status(201).json({ message: 'create Successful' })
@@ -109,13 +107,11 @@ export const deleteAssignment = async (req, res) => {
           interviewer: interviewer.name,
           candidateName: homework.name,
     }
-    sendNotify(interviewer.getMarkName(), NotifyTemplates.getDeleteHomeworkTemplate(arg), '1')
-          .then(() => {
-              console.log(`delete homework notify to ${interviewer.name} success`)
-          })
-          .catch((err) => {
-              console.log(`delete homework notify to ${interviewer.name} failed`, err)
-          })
+    sendNotify(interviewer.getMarkName(), NotifyTemplates.getDeleteHomeworkTemplate(arg), '1').then(() => {
+        console.log(`delete homework notify to ${interviewer.name} success`)
+    }).catch((err) => {
+        console.log(`delete homework notify to ${interviewer.name} failed`, err)
+    })
 
     res.json({ message: 'deleted' })
   } catch (err) {
@@ -131,13 +127,11 @@ const sendUpdateInterviewerNotify = async (oldAssignment, homework, interviewer)
     interviewer2: interviewer.name
   }
   const oldInterviewerMessage = NotifyTemplates.getUpdateInterviewerTemplate(oldInterviewerTemplate)
-  sendNotify(oldInterviewer.getMarkName(), oldInterviewerMessage, '1')
-      .then(() => {
-          console.log(`notify success`)
-      })
-      .catch((err) => {
-          console.log(`notify failed`, err)
-      })
+  sendNotify(oldInterviewer.getMarkName(), oldInterviewerMessage, '1').then(() => {
+      console.log(`notify success`)
+  }).catch((err) => {
+      console.log(`notify failed`, err)
+  })
 
   const interviewerTemplate = {
     interviewer: interviewer.name,
@@ -147,13 +141,12 @@ const sendUpdateInterviewerNotify = async (oldAssignment, homework, interviewer)
     deadlineDate: oldAssignment.deadline_date.toLocaleString()
   }
   const message = NotifyTemplates.getNewHomeworkTemplate(interviewerTemplate)
-  sendNotify(interviewer.getMarkName(), message, '1')
-      .then(() => {
-          console.log(`notify success`)
-      })
-      .catch((err) => {
-          console.log(`notify failed`, err)
-      })
+  sendNotify(interviewer.getMarkName(), message, '1').then(() => {
+      console.log(`notify success`)
+  })
+  .catch((err) => {
+      console.log(`notify failed`, err)
+  })
 }
 
 const sendUpdateDeadlineNotify = async (oldAssignment, homework, data) => {
@@ -164,13 +157,11 @@ const sendUpdateDeadlineNotify = async (oldAssignment, homework, data) => {
     deadlineDate: data.deadline_date
   }
   const message = NotifyTemplates.getUpdateDeadlineTemplate(templateData)
-  sendNotify(oldInterviewer.getMarkName(), message, '1')
-      .then(() => {
-          console.log(`notify success`)
-      })
-      .catch((err) => {
-          console.log(`notify failed`, err)
-      })
+  sendNotify(oldInterviewer.getMarkName(), message, '1').then(() => {
+      console.log(`notify success`)
+  }).catch((err) => {
+      console.log(`notify failed`, err)
+  })
 }
 
 const sendCompleteHomeworkNotify = async (oldAssignment, homework, data) => {
@@ -183,13 +174,11 @@ const sendCompleteHomeworkNotify = async (oldAssignment, homework, data) => {
     deadlineDate: oldAssignment.deadline_date.toLocaleString()
   }
   const message = NotifyTemplates.getCompleteHomeworkTemplate(templateData)
-  sendNotify(oldInterviewer.getMarkName(), message, '1')
-      .then(() => {
-          console.log(`notify success`)
-      })
-      .catch((err) => {
-          console.log(`notify failed`, err)
-      })
+  sendNotify(oldInterviewer.getMarkName(), message, '1').then(() => {
+      console.log(`notify success`)
+  }).catch((err) => {
+      console.log(`notify failed`, err)
+  })
 }
 
 export const updateAssignment = async (req, res) => {
@@ -269,18 +258,16 @@ export const notifyUnfinshTask = async () => {
     keys(taksgroup).forEach(async (interviewId) => {
       const interviewer: InterviewerModel = await Interviewer.findById(interviewId).exec()
       const assigns = taksgroup[interviewId]
-      const minAssignMent: AssignmentModel = minBy(assigns, (it) => it.deadline_date.getTime())
+      const minAssignMent = minBy(assigns, (it: AssignmentModel) => it.deadline_date.getTime()) as AssignmentModel
       const args = {
           interviewer: interviewer.name,
           leftNum: assigns.length,
           leftTime: fromNow(minAssignMent.deadline_date),
       }
-      sendNotify(interviewer.getMarkName(), NotifyTemplates.getHomeworkLeftTimeTemplate(args), '1')
-            .then(() => {
-                console.log(`sendNotify success`)
-            })
-            .catch((err) => {
-                console.log(`sendNotify failed`)
-            })
+      sendNotify(interviewer.getMarkName(), NotifyTemplates.getHomeworkLeftTimeTemplate(args), '1').then(() => {
+          console.log(`sendNotify success`)
+      }).catch((err) => {
+          console.log(`sendNotify failed`)
+      })
     })
 }

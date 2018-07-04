@@ -93,7 +93,7 @@ const getDeleteHomeworkTemplate = (args: TData): string => {
 }
 
 const getHomeworkLeftTimeTemplate = (args): string => {
-    const {interviewer, leftNum, leftTime} = args
+    const { interviewer, leftNum, leftTime } = args
     const leftDes = leftTime < 0
         ? `已超期时间：已超期${translateToCNDate(-leftTime)}`
         : `截止时间：仅剩${translateToCNDate(leftTime)}"`
