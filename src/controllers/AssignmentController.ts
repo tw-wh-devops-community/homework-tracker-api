@@ -1,6 +1,6 @@
 import { Assignment, AssignmentModel } from '../models/Assignment'
-import { Interviewer } from '../models/Interviewer'
-import { Homework } from '../models/Homework'
+import {Interviewer, InterviewerModel} from '../models/Interviewer'
+import {Homework, HomeworkModel} from '../models/Homework'
 import { AssignmentDTO } from '../dto/Assignment'
 import { mapAssignment } from '../dto-mapper/AssignmentMapper'
 import { AssignmentOperateLog, AssignmentOperateLogModel } from '../models/AssignmentOperateLog'
@@ -47,6 +47,7 @@ export const createAssignments = async (req, res) => {
 
   if (interviewers.length === 0) {
     res.status(400).json({ message: 'bad request, please check the homework interviewers' })
+    return
   }
 
   interviewers.forEach(async (interviewer) => {
@@ -67,7 +68,7 @@ export const createAssignments = async (req, res) => {
     })
     await assignmentOperateLog.save()
 
-    // Do notify
+    // Send notification
     const arg = {
         interviewer: interviewer.name,
         candidateName: homework.name,
@@ -75,6 +76,7 @@ export const createAssignments = async (req, res) => {
         assignedDate: data.assignedDate,
         deadlineDate: data.deadlineDate,
     }
+
     sendNotify(interviewer.getMarkName(), NotifyTemplates.getNewHomeworkTemplate(arg), '1')
         .then(() => {
             console.log(`send new homework notify to ${interviewer.name} success`)
@@ -89,13 +91,30 @@ export const createAssignments = async (req, res) => {
 
 export const deleteAssignment = async (req, res) => {
   try {
-    await Assignment.remove({ _id: req.params.id }).exec()
-    // const notifyResult = await NotifyServices.sendDeleteHomeworkNotify('胡红翔', 'hello world ssssss', '1')
-    // if (notifyResult.code === '0000') {
-    //   res.json({ message: 'deleted' })
-    // } else {
-    //   res.sendStatus(500).json({ message: 'send delete notify error' })
-    // }
+    const assignmentId = req.params.id
+    const assignment: AssignmentModel = await Assignment.findById(assignmentId).exec()
+    if (assignment == null) {
+        res.status(404).json({ message: `can not find assignment by id:${assignmentId}` })
+        return
+    }
+
+    await Assignment.remove({ _id: assignmentId }).exec()
+
+    // Send notification
+    const interviewer: InterviewerModel = await Interviewer.findById(assignment.interviewer_id).exec()
+    const homework: HomeworkModel = await Homework.findById(assignment.homework_id).exec()
+    const arg = {
+          interviewer: interviewer.name,
+          candidateName: homework.name,
+    }
+    sendNotify(interviewer.getMarkName(), NotifyTemplates.getDeleteHomeworkTemplate(arg), '1')
+          .then(() => {
+              console.log(`delete homework notify to ${interviewer.name} success`)
+          })
+          .catch((err) => {
+              console.log(`delete homework notify to ${interviewer.name} failed`, err)
+          })
+
     res.json({ message: 'deleted' })
   } catch (err) {
     res.status(404).json({ error: err })
