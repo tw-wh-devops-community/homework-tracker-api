@@ -73,8 +73,6 @@ const getUpdateInterviewerTemplate = (args: TData): string => {
 
 const getUpdateDeadlineTemplate = (args: TData): string => {
   const leftTime = translateToCNDate(fromNow(args!.deadlineDate))
-  console.log(leftTime)
-
   return UDPATE_DEADLINE_TEMPLATE
     .replace(/\{\{interviewer\}\}/g, args.interviewer)
     .replace(/\{\{candidateName\}\}/g, args.candidateName)
