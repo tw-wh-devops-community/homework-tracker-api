@@ -1,7 +1,7 @@
 import * as request from 'request'  
 
 export const sendNotify = (wxId: string, message: string, isJump: string) => {
-  console.log(`sendNotify called, wxId:${wxId}, message:${message}, isJump:${isJump}`);
+  console.log(`sendNotify called, wxId:${wxId}, message:${message}\nisJump:${isJump}`);
 
   const requestUrl: string = `http://localhost:5000/pyapi/realTimeNotify`;
   const formData: object = { wxId, message, isJump };
