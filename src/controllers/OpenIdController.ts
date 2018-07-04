@@ -84,12 +84,14 @@ const getTotalFinishedHomeWorksInCurrentYear = async (interviewerId) => {
 export const getHomeworkInfoForWeChat = async (req, res) => {
 
   const interviewerId = req.params.interviewerId
+  const openid = await OpenId.findOne({ interviewer_id: interviewerId });
   const numberOfFinished = await getTotalFinishedHomeWorksInCurrentYear(interviewerId)
   const unFinished = await getUnfinishedHomeWorks(interviewerId)
 
   const result = {
         'numberOfFinished': numberOfFinished,
         'unfinished': unFinished,
+        'nickName': openid.nick_name
     }
 
   res.status(200).json(result)
@@ -100,9 +102,15 @@ export const addBind = async (req, res) => {
     const openId = req.body.openId
     const interviewerId = req.body.interviewerId
     const code = req.body.code.toUpperCase()
+    const nickName = req.body.nickName
 
     if (!interviewerId) {
         res.status(400).json({message: '面试官不存在!'})
+        return
+    }
+
+    if (!nickName) {
+        res.status(400).json({message: '昵称不存在!'})
         return
     }
 
@@ -128,12 +136,14 @@ export const addBind = async (req, res) => {
         {
             open_id: openId,
             interviewer_id: interviewerId,
+            nick_name: nickName
         })
     const savedOpenIdModel = await openIdModel.save()
     const result = {
         '_id': savedOpenIdModel._id,
         'open_id': openId,
         'interviewer_id': interviewerId,
+        'nick_name': nickName
     }
     res.status(200).json(result)
 }
