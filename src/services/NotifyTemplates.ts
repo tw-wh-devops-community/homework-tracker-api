@@ -30,8 +30,7 @@ const DELETE_HOMEWORK_TEMPLATE: string = `作业删除通知
 候选人姓名：{{candidateName}}
 备注：作业已删除，请至小程序查看详情`
 
-const HOMEWORK_LEFT_TIME_NOTIFY: string = `
-作业待完成提醒
+const HOMEWORK_LEFT_TIME_NOTIFY: string = `作业待完成提醒
 亲爱的面试官{{interviewer}}，还有作业待完成，请抽时间尽快看作业哦~
 作业数量：{{leftNum}}份作业待完成
 {{leftTimeDes}}`
