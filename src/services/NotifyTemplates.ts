@@ -5,35 +5,41 @@ const NEW_HOMEWORK_TEMPLATE: string = `新作业提醒
 候选人姓名：{{candidateName}}
 候选人role：{{jobRole}}
 作业分配时间：{{assignedDate}}
-作业截止时间：{{deadlineDate}}`
+作业截止时间：{{deadlineDate}}
+长按识别下方二维码进入小程序查看详情`
 
 const COMPLETE_HOMEWORK_TEMPLATE: string = `作业完成啦
 亲爱的面试官{{interviewer}}，感谢您的参与，作业已完成~
 候选人姓名：{{candidateName}}
 作业完成时间：{{completeDate}}
 作业完成时长：{{timeDuration}}
-作业完成情况：{{completeCondition}}`
+作业完成情况：{{completeCondition}}
+长按识别下方二维码进入小程序查看详情`
 
 const UPDATE_INTERVIEWER_TEMPLATE: string = `作业面试官修改
 亲爱的面试官{{interviewer}}，您的待批改作业已改派给其他面试官，请留意变更！
 候选人姓名：{{candidateName}}
-改派面试官：{{interviewer2}}`
+改派面试官：{{interviewer2}}
+长按识别下方二维码进入小程序查看详情`
 
 const UDPATE_DEADLINE_TEMPLATE: string = `作业截止时间变更
 亲爱的面试官{{interviewer}}，作业截止时间已修改，请留意变更!
 候选人姓名：{{candidateName}}
 现作业截止时间：{{deadlineDate}}
-距离作业截止时长：剩余{{leftTime}}`
+距离作业截止时长：剩余{{leftTime}}
+长按识别下方二维码进入小程序查看详情`
 
 const DELETE_HOMEWORK_TEMPLATE: string = `作业删除通知
 亲爱的面试官{{interviewer}}，您的作业已被删除，请留意变更！
 候选人姓名：{{candidateName}}
-备注：作业已删除，请至小程序查看详情`
+备注：作业已删除，请至小程序查看详情
+长按识别下方二维码进入小程序查看详情`
 
 const HOMEWORK_LEFT_TIME_NOTIFY: string = `作业待完成提醒
 亲爱的面试官{{interviewer}}，还有作业待完成，请抽时间尽快看作业哦~
 作业数量：{{leftNum}}份作业待完成
-{{leftTimeDes}}`
+{{leftTimeDes}}
+长按识别下方二维码进入小程序查看详情`
 
 interface TData {
   interviewer: string

@@ -29,7 +29,7 @@ class App {
     this.middleware()
     this.routes()
     this.handleError()
-    startNotifyTask()
+    // startNotifyTask()
   }
 
   private middleware(): void {

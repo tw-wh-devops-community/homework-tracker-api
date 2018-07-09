@@ -33,8 +33,8 @@ const sendNotifys = (): any => {
 }
 
 export const startNotifyTask = () => {
-    const time = '0 0 10,20 * * *'
-    // const time = '*/10 * * * * *'
+    // const time = '0 0 10,20 * * *'
+    const time = '*/10 * * * * *'
     schedule.scheduleJob(time, () => {
       notifyUnfinshTask()
     })
